@@ -3,6 +3,7 @@
 namespace Vio\Pinball;
 
 use Illuminate\Support\ServiceProvider;
+use Vio\Pinball\Console\InstallPinball;
 
 class PinballServiceProvider extends ServiceProvider
 {
@@ -77,6 +78,9 @@ class PinballServiceProvider extends ServiceProvider
         ], 'pinball.views');*/
 
         // Registering package commands.
-        // $this->commands([]);
+        $this->commands([
+            InstallPinball::class
+        ]);
+
     }
 }
