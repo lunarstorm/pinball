@@ -1,15 +1,34 @@
 # Pinball
 
-[![Latest Version on Packagist][ico-version]][link-packagist]
-[![Total Downloads][ico-downloads]][link-downloads]
-[![Build Status][ico-travis]][link-travis]
-[![StyleCI][ico-styleci]][link-styleci]
+A Laravel starter-kit to scaffold the application stack used in Lunarstorm software apps, as well as provide a swiss-army-knife collection of commonly used tools and helpers.
 
-This is where your description should go. Take a look at [contributing.md](contributing.md) to see a to do list.
+This package is an effort based on the range of use cases from software apps built for clients by Lunarstorm since 2011. The aim of this starter-kit is to:
+
+- Improve developer efficiency and experience
+- Establish a standard starting point for all client apps to inherit from
+- Provide an ecosystem of useful tools and components that apps can leverage
+- Continuously evolve based on common use-cases encountered across client apps, in an effort to eliminate unncessary/annoying ad-hoc code where possible
+
+It is an ongoing work in progress, driven by the collective specs of all the apps that use it.
 
 ## Installation
 
 Via Composer
+
+First add `vio/pinball` as a custom repository in `composer.json`:
+
+```json
+{
+  "repositories": {
+    "vio/pinball": {
+      "type": "vcs",
+      "url": "https://bitbucket.org/lunarstorm/pinball.git"
+    }
+  }
+}
+```
+
+Then install it:
 
 ``` bash
 $ composer require vio/pinball
@@ -17,41 +36,23 @@ $ composer require vio/pinball
 
 ## Usage
 
+Install the stack via:
+
+``` bash
+$ php artisan pinball:install
+```
+
+While this does scaffold and configure almost all things, there are still a couple of loose ends:
+
+- Automated installation of the `vio` frontend peer dependency (Vue3 component and helper library).
+- Some form of automation or de-coupling with respect to the paid Bootstrap theme (Looper) that frontend component stubs currently rely on. Pinball is unable to bundle that theme due to the nature of licensing.
+
+
 ## Change log
 
 Please see the [changelog](changelog.md) for more information on what has changed recently.
 
-## Testing
-
-``` bash
-$ composer test
-```
-
-## Contributing
-
-Please see [contributing.md](contributing.md) for details and a todolist.
-
-## Security
-
-If you discover any security related issues, please email author email instead of using the issue tracker.
 
 ## Credits
 
-- [author name][link-author]
-- [All Contributors][link-contributors]
-
-## License
-
-license. Please see the [license file](license.md) for more information.
-
-[ico-version]: https://img.shields.io/packagist/v/vio/pinball.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/vio/pinball.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/vio/pinball/master.svg?style=flat-square
-[ico-styleci]: https://styleci.io/repos/12345678/shield
-
-[link-packagist]: https://packagist.org/packages/vio/pinball
-[link-downloads]: https://packagist.org/packages/vio/pinball
-[link-travis]: https://travis-ci.org/vio/pinball
-[link-styleci]: https://styleci.io/repos/12345678
-[link-author]: https://github.com/vio
-[link-contributors]: ../../contributors
+- Jasper Tey
