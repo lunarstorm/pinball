@@ -17,7 +17,7 @@
 		</nav>
 	</div>
 </template>
-composer require --dev "orchestra/testbench=^6.0"
+
 <script>
 
 export default {
