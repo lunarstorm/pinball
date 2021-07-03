@@ -41,7 +41,7 @@
 
 <script>
 import LayoutBlank from "@/Layouts/LayoutBlank";
-import InputText from "@/vio/src/components/form/InputText";
+import InputText from "vio/components/form/InputText";
 import {useForm} from "@inertiajs/inertia-vue3";
 
 export default {

@@ -24,8 +24,9 @@
 <script>
 import HeaderBar from "./Header";
 import SidebarNav from "@/Layouts/SidebarNav";
-import BreadCrumbs from "@/vio/src/vendor/inertia/BreadCrumbs";
+import BreadCrumbs from "vio/vendor/inertia/BreadCrumbs";
 import _ from "lodash";
+import {watchEffect} from "vue";
 
 export default {
 	name: "LayoutDefault",
@@ -40,8 +41,9 @@ export default {
 	mounted() {
 		Looper.init();
 
-		this.$nextTick(() => {
-			_.forEach(this.$page.props.app.messages || [], (item) => {
+		watchEffect(() => {
+			let items = this.$page.props.app.messages || [];
+			_.forEach(items, (item) => {
 				this.$Messages.push(item);
 			});
 		});
