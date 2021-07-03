@@ -4,6 +4,9 @@ namespace Vio\Pinball;
 
 use Illuminate\Support\ServiceProvider;
 use Vio\Pinball\Console\InstallPinball;
+use Vio\Pinball\Console\Make\MakeInertiaPage;
+use Vio\Pinball\Console\Make\MakeVueComponent;
+use Vio\Pinball\Console\PinballMake;
 
 class PinballServiceProvider extends ServiceProvider
 {
@@ -79,8 +82,9 @@ class PinballServiceProvider extends ServiceProvider
 
         // Registering package commands.
         $this->commands([
-            InstallPinball::class
+            InstallPinball::class,
+            MakeVueComponent::class,
+            MakeInertiaPage::class,
         ]);
-
     }
 }

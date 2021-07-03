@@ -1,5 +1,9 @@
 <?php
 
+if (!defined('PINBALL_STUB_DIR')) {
+    define('PINBALL_STUB_DIR', __DIR__.'/../stubs');
+}
+
 if (!defined('IO_DATE_SHORT')) {
     define('IO_DATE_SHORT', 'M j/Y');
 }
