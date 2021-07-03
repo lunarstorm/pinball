@@ -1,0 +1,111 @@
+<template>
+	<div>
+		<page-container>
+			<template #titlebar>
+				<h1 class="page-title">Index</h1>
+			</template>
+			<template #default>
+				<div class="d-flex align-items-center mb-3">
+					<div class="mr-auto">
+						<div class="form-inline">
+							<input-text
+							  v-model="filter.data.values.q"
+							  placeholder="Search..."
+							></input-text>
+
+							<a v-if="!!filter.data.values.q" class="btn btn-link" @click.prevent="filter.resetAll" href="#">Clear</a>
+						</div>
+					</div>
+
+					<inertia-link
+					  href="/create-link"
+					  class="btn btn-secondary"
+					>
+						<i class="fa fa-plus"></i> New Item
+					</inertia-link>
+				</div>
+
+				<paged-table :page="page">
+					<template #head>
+						<thead>
+						<tr>
+							<th>
+								Resource
+							</th>
+							<th>
+
+							</th>
+						</tr>
+						</thead>
+					</template>
+					<template #row="{item, index, items}">
+						<tr>
+							<td>
+								{{ item.id }}
+							</td>
+							<td>
+
+							</td>
+						</tr>
+					</template>
+				</paged-table>
+			</template>
+		</page-container>
+	</div>
+</template>
+
+<script>
+import SearchFilter from "vio/helpers/SearchFilter";
+import PageContainer from "vio/vendor/looper/PageContainer";
+import InputText from "vio/components/form/InputText";
+import TextNumeric from "vio/components/text/TextNumeric";
+import PagedTable from "vio/components/collection/paged/PagedTable";
+import {usePage} from "@inertiajs/inertia-vue3";
+
+export default {
+	name: "{{ name }}",
+	components: {
+		PageContainer,
+		InputText,
+		TextNumeric,
+		PagedTable,
+	},
+	props: {
+		page: Object
+	},
+	setup(props) {
+		const pageProps = usePage().props.value;
+
+		const filter = new SearchFilter({
+			q: '',
+		});
+
+		filter.assignValues(pageProps.query);
+
+		return {
+			filter
+		}
+	},
+	mounted() {
+		this.filter.onChange(_.debounce(() => {
+			this.refresh();
+		}, 300));
+	},
+	methods: {
+		refresh() {
+			this.$inertia.reload({
+				data: {
+					...this.filter.getValues(),
+					page: 1
+				}
+			}, {
+				only: ['page', 'query']
+			});
+		}
+	}
+}
+</script>
+
+<style scoped>
+
+</style>

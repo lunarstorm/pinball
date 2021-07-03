@@ -16,7 +16,8 @@ class MakeVueComponent extends Command
      */
     protected $signature = 'pinball:make:vue
                             {name : Fully qualified name of the component to generate}
-                            {--force : Overwrite existing component if it exists}
+                            {--template=default : Name of component template to generate from}
+                            {--f|force : Overwrite existing component if it exists}
                             {--base=Components : Base directory relative to resources/js}';
 
     /**
@@ -52,11 +53,11 @@ class MakeVueComponent extends Command
 
         $path = ['js'];
 
-        if($base){
+        if ($base) {
             $path[] = trim($base, '/');
         }
 
-        if($dir !== '.'){
+        if ($dir !== '.') {
             $path[] = trim($dir, '/');
         }
 
@@ -74,12 +75,29 @@ class MakeVueComponent extends Command
             return 0;
         }
 
-        $pathToStub = PINBALL_STUB_DIR.'/templates/resources/js/Components/EmptyComponent.vue.stub';
+        $template = $this->option('template') ?? "Components/EmptyComponent";
+        $pathToStub = $this->generateStubPath($template);
+
+        if(!$filesystem->exists($pathToStub)){
+            $this->warn("Template {$template} does not exist!");
+            return 0;
+        }
+
         $stub = file_get_contents($pathToStub);
         $stub = Stub::interpolate($stub, ['name' => $component]);
         file_put_contents($targetPath, $stub);
 
         $this->line("Generated Vue component at resources/{$target}");
         return 0;
+    }
+
+    protected function generateStubPath($template){
+        if($template == 'default'){
+            $template = "Components/EmptyComponent";
+        }
+
+        $pathToStub = PINBALL_STUB_DIR."/templates/vue/{$template}.vue.stub";
+
+        return $pathToStub;
     }
 }

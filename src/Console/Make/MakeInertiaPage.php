@@ -3,9 +3,6 @@
 namespace Vio\Pinball\Console\Make;
 
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
-use Vio\Pinball\Helpers\Stub;
 
 class MakeInertiaPage extends Command
 {
@@ -16,6 +13,7 @@ class MakeInertiaPage extends Command
      */
     protected $signature = 'pinball:make:inertiaPage 
                             {name : Fully qualified name of the page to generate}
+                            {--type=default : Type of page to generate}
                             {--force : Overwrite existing page if it exists}';
 
     /**
@@ -47,11 +45,23 @@ class MakeInertiaPage extends Command
         $args = [
             'name' => $name,
             '--base' => 'Pages',
+            '--template' => $this->resolveTemplate(),
             '--force' => $this->option('force'),
         ];
 
         $this->call(MakeVueComponent::class, $args);
 
         return 0;
+    }
+
+    protected function resolveTemplate(){
+        $type = $this->option('type');
+
+        switch (strtolower($type)){
+            case "index":
+                return "Pages/Resource/ResourceIndex";
+        }
+
+        return "default";
     }
 }
