@@ -14,7 +14,7 @@ class MakeVueComponent extends Command
      *
      * @var string
      */
-    protected $signature = 'pinball:make:vue
+    protected $signature = 'pb:make:vue
                             {name : Fully qualified name of the component to generate}
                             {--template=default : Name of component template to generate from}
                             {--f|force : Overwrite existing component if it exists}

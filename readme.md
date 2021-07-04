@@ -39,7 +39,7 @@ $ composer require vio/pinball
 Install the stack via:
 
 ``` bash
-$ php artisan pinball:install
+$ php artisan pb:install
 ```
 
 While this does scaffold and configure almost all things, there are still a couple of loose ends:

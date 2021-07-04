@@ -11,7 +11,7 @@ class MakeInertiaPage extends Command
      *
      * @var string
      */
-    protected $signature = 'pinball:make:inertiaPage 
+    protected $signature = 'pb:make:inertiaPage 
                             {name : Fully qualified name of the page to generate}
                             {--type=default : Type of page to generate}
                             {--force : Overwrite existing page if it exists}';
