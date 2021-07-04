@@ -17,6 +17,12 @@ class Text
 
     public static function acronym($string)
     {
+        $string = trim($string);
+
+        if(!strlen($string)){
+            return $string;
+        }
+
         $words = explode(" ", $string);
         $acronym = "";
 
