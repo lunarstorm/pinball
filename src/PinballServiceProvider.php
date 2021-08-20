@@ -35,9 +35,9 @@ class PinballServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/pinball.php', 'pinball');
+        $this->mergeConfigFrom(__DIR__ . '/../config/pinball.php', 'pinball');
 
-        require_once(__DIR__.'/Functions/functions.php');
+        require_once(__DIR__ . '/Functions/functions.php');
 
         // Register the service the package provides.
         $this->app->singleton('pinball', function ($app) {
@@ -64,8 +64,16 @@ class PinballServiceProvider extends ServiceProvider
     {
         // Publishing the configuration file.
         $this->publishes([
-            __DIR__.'/../config/pinball.php' => config_path('pinball.php'),
+            __DIR__ . '/../config/pinball.php' => config_path('pinball.php'),
         ], 'pinball.config');
+
+        // Migrations
+        if (!class_exists('CreateIoDataTable')) {
+            $this->publishes([
+                __DIR__ . '/../database/migrations/create_io_data_table.php.stub'
+                => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_io_data_table.php'),
+            ], 'io');
+        }
 
         // Publishing the views.
         /*$this->publishes([
