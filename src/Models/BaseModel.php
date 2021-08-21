@@ -12,7 +12,7 @@ class BaseModel extends Model
     {
         parent::boot();
 
-        static::saving(function($model){
+        static::saving(function ($model) {
             static::setDefaults($model);
         });
     }
@@ -20,6 +20,17 @@ class BaseModel extends Model
     public static function setDefaults($model)
     {
         // To be overridden
+    }
+
+    public static function makeWithDefaults()
+    {
+        $model = new static();
+        $columns = Schema::getColumnListing($model->getTable());
+        $attributes = array_fill_keys($columns, null);
+        $attributesToSet = array_merge($attributes, $model->attributesToArray());
+        $model->setRawAttributes($attributesToSet);
+        static::setDefaults($model);
+        return $model;
     }
 
     public function autoFill($data)
@@ -33,5 +44,4 @@ class BaseModel extends Model
 
         return parent::forceFill($data);
     }
-
 }
