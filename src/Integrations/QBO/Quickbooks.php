@@ -1,6 +1,6 @@
 <?php
 
-namespace Pinball\Integrations\QBO;
+namespace Vio\Pinball\Integrations\QBO;
 
 use io\models\IoData;
 use io\util\Date;
