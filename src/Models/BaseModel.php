@@ -34,6 +34,14 @@ class BaseModel extends Model
         $columns = Schema::getColumnListing($model->getTable());
         $attributes = array_fill_keys($columns, null);
         $attributesToSet = array_merge($attributes, $model->attributesToArray());
+
+        // Exclude id and auto timestamp columns
+        $exclude = ['id', 'created_at', 'updated_at', 'deleted_at'];
+
+        $attributesToSet = collect($attributesToSet)->reject(function ($value, $key) use ($exclude) {
+            return in_array($key, $exclude);
+        })->toArray();
+
         $model->setRawAttributes($attributesToSet);
         static::setDefaults($model);
         return $model;
@@ -44,10 +52,8 @@ class BaseModel extends Model
         $table = $this->getTable();
         $columns = Schema::getColumnListing($table);
 
-        $exclude = ['id', 'created_at', 'updated_at', 'deleted_at'];
-
-        $data = collect($data)->reject(function ($value, $key) use ($columns, $exclude) {
-            return !in_array($key, $columns) || in_array($key, $exclude);
+        $data = collect($data)->reject(function ($value, $key) use ($columns) {
+            return !in_array($key, $columns);
         })->toArray();
 
         return parent::forceFill($data);
