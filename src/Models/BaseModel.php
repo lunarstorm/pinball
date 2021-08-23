@@ -2,6 +2,7 @@
 
 namespace Vio\Pinball\Models;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 
@@ -15,6 +16,11 @@ class BaseModel extends Model
         static::saving(function ($model) {
             static::setDefaults($model);
         });
+    }
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 
     public static function setDefaults($model)
@@ -38,8 +44,10 @@ class BaseModel extends Model
         $table = $this->getTable();
         $columns = Schema::getColumnListing($table);
 
-        $data = collect($data)->reject(function ($value, $key) use ($columns) {
-            return !in_array($key, $columns);
+        $exclude = ['id', 'created_at', 'updated_at', 'deleted_at'];
+
+        $data = collect($data)->reject(function ($value, $key) use ($columns, $exclude) {
+            return !in_array($key, $columns) || in_array($key, $exclude);
         })->toArray();
 
         return parent::forceFill($data);
