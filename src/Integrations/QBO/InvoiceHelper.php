@@ -2,6 +2,8 @@
 
 namespace Pinball\Integrations\QBO;
 
+use Vio\Pinball\Integrations\QBO\Quickbooks;
+
 class InvoiceHelper
 {
 
