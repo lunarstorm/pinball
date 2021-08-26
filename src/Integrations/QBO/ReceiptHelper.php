@@ -1,6 +1,8 @@
 <?php
 
-namespace Pinball\Integrations\QBO;
+namespace Vio\Pinball\Integrations\QBO;
+
+use Illuminate\Support\Arr;
 
 class ReceiptHelper
 {
@@ -17,8 +19,8 @@ class ReceiptHelper
         $invoice = array_intersect_key($invoice, $defaults) + $defaults;
 
         foreach ($invoice['Line'] as $i => $line) {
-            if (!$line['SalesItemLineDetail']['TaxCodeRef']['value']) {
-                unset($invoice['Line'][$i]['SalesItemLineDetail']['TaxCodeRef']);
+            if (!data_get($line, "SalesItemLineDetail.TaxCodeRef.value")) {
+                Arr::forget($invoice['Line'][$i], "SalesItemLineDetail.TaxCodeRef");
             }
         }
 
