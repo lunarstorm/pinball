@@ -373,13 +373,15 @@ class Quickbooks
 
     public static function getCustomerMapping($client)
     {
-        $qboCustomerId = Setting::get("qboCustomerId/{$client}") ?: '';
+        $user = auth()->user();
+        $qboCustomerId = Setting::get("qboCustomerId/{$client}", $user) ?: '';
         return $qboCustomerId;
     }
 
     public static function setCustomerMapping($client, $custId)
     {
-        return Setting::set("qboCustomerId/{$client}", $custId);
+        $user = auth()->user();
+        return Setting::set("qboCustomerId/{$client}", $custId, $user);
     }
 
     public static function errors()
