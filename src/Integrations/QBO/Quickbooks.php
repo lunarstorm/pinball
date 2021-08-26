@@ -7,6 +7,7 @@ use Vio\Pinball\Helpers\Date;
 use QuickBooksOnline\API\Core\OAuth\OAuth2\OAuth2LoginHelper;
 use QuickBooksOnline\API\DataService\DataService;
 use anlutro\LaravelSettings\SettingStore;
+use Illuminate\Support\Facades\Log;
 use Vio\Pinball\Models\Setting;
 
 class Quickbooks
@@ -78,10 +79,12 @@ class Quickbooks
             if ($ds = Quickbooks::ds()) {
                 try {
                     $data = $ds->getCompanyInfo();
+                    Log::error("Quickbooks Company Info Received", $data);
                     $data = (array)$data;
                     Setting::set('qbo.companyInfo', $data, $user);
                     return $data;
                 } catch (\Exception $e) {
+                    Log::error("Error fetching Quickbooks Company Info: " . $e->getMessage(), $e);
                     return false;
                 }
             }
