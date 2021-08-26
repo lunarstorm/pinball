@@ -75,18 +75,22 @@ class Quickbooks
 
         $user = auth()->user();
 
+        Log::info("Quickbooks fetchCompanyInfo()", $o);
+
         if ($o['refresh']) {
             if ($ds = Quickbooks::ds()) {
                 try {
                     $data = $ds->getCompanyInfo();
                     $data = (array)$data;
-                    Log::info("Quickbooks Company Info Received", $data);
+                    Log::info("Quickbooks getCompanyInfo()", $data);
                     Setting::set('qbo.companyInfo', $data, $user);
                     return $data;
                 } catch (\Exception $e) {
                     Log::error("Error fetching Quickbooks Company Info: " . $e->getMessage(), $e);
                     return false;
                 }
+            } else {
+                Log::error("Quickbooks returned empty dataservice");
             }
         }
 
@@ -153,8 +157,6 @@ class Quickbooks
             Setting::set('qbo', $qbo, $user);
             return $qbo;
         }
-
-        $config = Setting::get('qbo', $user);
 
         return Setting::get('qbo', $user) ?: false;
     }
