@@ -179,7 +179,7 @@ class Quickbooks
             $secret = static::get('CLIENT_SECRET');
 
             $oauth2LoginHelper = new OAuth2LoginHelper($cid, $secret);
-            $revokeResult = $oauth2LoginHelper->revokeToken($qbo['refreshToken']);
+            $revokeResult = $oauth2LoginHelper->revokeToken(data_get($qbo, 'refreshToken'));
             static::_clearSavedData();
             return true;
         } catch (\Exception $e) {
@@ -207,13 +207,13 @@ class Quickbooks
                     'auth_mode' => 'oauth2',
                     'ClientID' => $cid,
                     'ClientSecret' => $secret,
-                    'accessTokenKey' => $qbo['accessToken'],
-                    'refreshTokenKey' => $qbo['refreshToken'],
-                    'QBORealmID' => $qbo['realmId'],
-                    'baseUrl' => $urls['base'],
+                    'accessTokenKey' => data_get($qbo, 'accessToken'),
+                    'refreshTokenKey' => data_get($qbo, 'refreshToken'),
+                    'QBORealmID' => data_get($qbo, 'realmId'),
+                    'baseUrl' => data_get($urls, 'base'),
                 ]);
 
-                $diff = Date::diff($qbo['accessTokenExpiry']);
+                $diff = Date::diff(data_get($qbo, 'accessTokenExpiry'));
                 /*print_pre($diff);
 				die();*/
                 if ($diff['m'] < 10) {
@@ -223,7 +223,7 @@ class Quickbooks
                 $OAuth2LoginHelper = $dataService->getOAuth2LoginHelper();
 
                 if ($o['refresh']) {
-                    $accessToken = $OAuth2LoginHelper->refreshAccessTokenWithRefreshToken($qbo['refreshToken']);
+                    $accessToken = $OAuth2LoginHelper->refreshAccessTokenWithRefreshToken(data_get($qbo, 'refreshToken'));
                     // Update the config with refreshed token
                     static::config(['accessToken' => $accessToken]);
                 } else {
