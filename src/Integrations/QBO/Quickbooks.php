@@ -80,7 +80,7 @@ class Quickbooks
                 try {
                     $data = $ds->getCompanyInfo();
                     $data = (array)$data;
-                    Log::error("Quickbooks Company Info Received", $data);
+                    Log::info("Quickbooks Company Info Received", $data);
                     Setting::set('qbo.companyInfo', $data, $user);
                     return $data;
                 } catch (\Exception $e) {
