@@ -2,11 +2,12 @@
 
 namespace Vio\Pinball\Integrations\QBO;
 
-use io\models\IoData;
-use io\util\Date;
-use lithium\security\Auth;
+use Vio\Pinball\Models\IoData;
+use Vio\Pinball\Helpers\Date;
 use QuickBooksOnline\API\Core\OAuth\OAuth2\OAuth2LoginHelper;
 use QuickBooksOnline\API\DataService\DataService;
+use anlutro\LaravelSettings\SettingStore;
+use Vio\Pinball\Models\Setting;
 
 class Quickbooks
 {
@@ -78,7 +79,7 @@ class Quickbooks
                 try {
                     $data = $ds->getCompanyInfo();
                     $data = (array)$data;
-                    IoData::set('qbo.companyInfo', $data, $user);
+                    Setting::set('qbo.companyInfo', $data, $user);
                     return $data;
                 } catch (\Exception $e) {
                     return false;
@@ -86,7 +87,7 @@ class Quickbooks
             }
         }
 
-        if ($data = IoData::get('qbo.companyInfo', $user)) {
+        if ($data = Setting::get('qbo.companyInfo', $user)) {
             return $data;
         }
 
@@ -132,7 +133,7 @@ class Quickbooks
         }
 
         if ($o['clear']) {
-            return IoData::set('qbo', null, $user);
+            return Setting::forget('qbo', $user);
         }
 
         if ($accessToken = $o['accessToken']) {
@@ -146,11 +147,13 @@ class Quickbooks
                 'refreshTokenExpiry' => $accessToken->getRefreshTokenExpiresAt(),
                 'raw' => (array)$accessToken,
             ];
-            IoData::set('qbo', $qbo, $user);
+            Setting::set('qbo', $qbo, $user);
             return $qbo;
         }
 
-        return IoData::get('qbo', $user) ?: false;
+        $config = Setting::get('qbo', $user);
+
+        return Setting::get('qbo', $user) ?: false;
     }
 
     public static function _clearSavedData($user = null)
@@ -158,9 +161,9 @@ class Quickbooks
         if (!$user) {
             $user = auth()->user();
         }
-        IoData::set('qbo', null, $user);
-        IoData::set('qbo.companyInfo', null, $user);
-        IoData::set('qbo.items', null, $user);
+        Setting::set('qbo', null, $user);
+        Setting::set('qbo.companyInfo', null, $user);
+        Setting::set('qbo.items', null, $user);
         return true;
     }
 
@@ -370,13 +373,13 @@ class Quickbooks
 
     public static function getCustomerMapping($client)
     {
-        $qboCustomerId = IoData::getForUser('qboCustomerId', $client) ?: '';
+        $qboCustomerId = Setting::get("qboCustomerId/{$client}") ?: '';
         return $qboCustomerId;
     }
 
     public static function setCustomerMapping($client, $custId)
     {
-        return IoData::setForUser('qboCustomerId', $custId, $client);
+        return Setting::set("qboCustomerId/{$client}", $custId);
     }
 
     public static function errors()
