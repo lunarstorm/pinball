@@ -35,10 +35,10 @@ class BaseModel extends Model
         $attributes = [];
 
         foreach ($columns as $column) {
-            $attributes[$column] = data_get(static::$attributes, $column, null);
+            $attributes[$column] = null;
         }
 
-        $attributesToSet = array_merge($attributes, $model->attributesToArray());
+        $attributesToSet = array_merge($attributes, $model->getAttributes());
 
         // Exclude id and auto timestamp columns
         $exclude = ['id', 'created_at', 'updated_at', 'deleted_at'];
