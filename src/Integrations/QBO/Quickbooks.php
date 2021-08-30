@@ -237,8 +237,10 @@ class Quickbooks
 
                 return $dataService;
             } catch (\Exception $e) {
-                //pd($e->getMessage());
-                //static::_clearSavedData();
+                Log::error("Quickbooks DataService exception", [
+                    'message' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString()
+                ]);
             }
         }
 
