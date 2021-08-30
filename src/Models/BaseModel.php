@@ -32,7 +32,12 @@ class BaseModel extends Model
     {
         $model = new static();
         $columns = Schema::getColumnListing($model->getTable());
-        $attributes = array_fill_keys($columns, null);
+        $attributes = [];
+
+        foreach ($columns as $column) {
+            $attributes[$column] = data_get(static::$attributes, $column, null);
+        }
+
         $attributesToSet = array_merge($attributes, $model->attributesToArray());
 
         // Exclude id and auto timestamp columns
