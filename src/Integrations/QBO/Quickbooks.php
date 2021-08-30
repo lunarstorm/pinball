@@ -185,8 +185,9 @@ class Quickbooks
             static::_clearSavedData();
             return true;
         } catch (\Exception $e) {
-            /*print_pre($e);
-			die();*/
+            /* print_pre($e->getMessage());
+			die(); */
+            static::_clearSavedData();
         }
 
         return false;
@@ -236,6 +237,7 @@ class Quickbooks
 
                 return $dataService;
             } catch (\Exception $e) {
+                //pd($e->getMessage());
                 //static::_clearSavedData();
             }
         }
