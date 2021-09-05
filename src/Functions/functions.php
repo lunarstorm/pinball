@@ -55,3 +55,16 @@ if (!function_exists('vd')) {
         die();
     }
 }
+
+if (!function_exists('render_php')) {
+    function render_php($path, $params = [])
+    {
+        ob_start();
+        extract($params, EXTR_SKIP);
+        include($path);
+        $ret = ob_get_contents();
+        ob_end_clean();
+
+        return $ret;
+    }
+}
