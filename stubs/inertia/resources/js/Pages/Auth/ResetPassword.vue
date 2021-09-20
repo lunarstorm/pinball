@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="card mx-auto" style="width: 400px;">
+		<div class="card mx-auto" style="max-width: 400px;">
 			<div class="card-header text-center">
 				Reset Password
 			</div>
