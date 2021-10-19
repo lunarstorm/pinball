@@ -51,7 +51,7 @@ class InstallPinball extends Command
         $this->info("Installing common extras...");
         $this->requireComposerPackages([
             'laracasts/flash:^3.2',
-            'aws/aws-sdk-php:^3',
+            //'aws/aws-sdk-php:^3',
             'doctrine/dbal:^3',
         ]);
     }
@@ -80,12 +80,13 @@ class InstallPinball extends Command
         // Non-dev dependencies
         $this->updateNodePackages(function ($packages) {
             return [
-                '@inertiajs/inertia' => '^0.9.2',
-                '@inertiajs/inertia-vue3' => '^0.4.7',
-                '@inertiajs/progress' => '^0.2.5',
-                'vue' => '^3.1.2',
+                '@inertiajs/inertia' => '^0.10',
+                '@inertiajs/inertia-vue3' => '^0.5',
+                '@inertiajs/progress' => '^0.2',
+                'vue' => '^3.2',
                 '@vueform/multiselect' => '^1.5.0',
                 'bootstrap' => '^4.6',
+                'bootstrap-icons' => '^1',
                 'flatpickr' => '^4.6.9',
                 'autosize' => '^5.0.0',
                 'font-awesome' => '^4.7.0',
