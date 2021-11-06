@@ -1,6 +1,6 @@
 <?php
 
-namespace Pinball\Legacy\io\util;
+namespace Vio\Pinball\Legacy\io\util;
 
 use Illuminate\Support\Facades\DB;
 
