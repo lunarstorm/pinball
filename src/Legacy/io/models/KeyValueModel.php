@@ -1,6 +1,6 @@
 <?php
 
-namespace io\data;
+namespace Vio\Pinball\Legacy\io\models;
 
 use Illuminate\Database\Eloquent\Model;
 use lithium\security\Auth;
