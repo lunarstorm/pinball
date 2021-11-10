@@ -24,12 +24,12 @@ class VerifyApiKey
                 abort(403, "API Key not configured.");
             }
 
-            $keysProvided = [
-                $request->bearerToken(),
+            $keysToCheck = [
                 $request->header('X-Api-Key'),
+                $request->bearerToken(),
             ];
 
-            if (in_array($secret, $keysProvided)) {
+            if (!in_array($secret, $keysToCheck)) {
                 abort(403, "Invalid API Key.");
             }
         }
