@@ -4,6 +4,7 @@ namespace Vio\Pinball\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class VerifyApiKey
 {
@@ -18,13 +19,17 @@ class VerifyApiKey
     {
         if (!$request->user()) {
             $secret = config('api.key');
-            $specifiedKey = $request->header('X-Api-Key');
 
             if (is_null($secret)) {
                 abort(403, "API Key not configured.");
             }
 
-            if ($specifiedKey != $secret) {
+            $keysProvided = [
+                $request->bearerToken(),
+                $request->header('X-Api-Key'),
+            ];
+
+            if (in_array($secret, $keysProvided)) {
                 abort(403, "Invalid API Key.");
             }
         }
