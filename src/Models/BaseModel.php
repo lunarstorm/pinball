@@ -18,6 +18,11 @@ class BaseModel extends Model
         });
     }
 
+    public function hasColumn($column)
+    {
+        return Schema::hasColumn($this->getTable(), $column);
+    }
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
