@@ -20,7 +20,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Vio\\Pinball\\": "src/"
+            "Vio\\Pinball\\": "src/",
+            "Pinball\\": "src/"
         }
     },
     "autoload-dev": {
