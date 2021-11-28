@@ -1,6 +1,6 @@
 <?php
 
-namespace Pinball\Patterns\ActivityFeed\Models;
+namespace Vio\Pinball\Patterns\ActivityFeed\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
@@ -33,6 +33,21 @@ class FeedStory extends BaseModel
         'date' => 'datetime',
         'meta' => 'array'
     ];
+
+    public static function setDefaults($model)
+    {
+        if (!$model->status) {
+            $model->status = self::STATUS_PUBLISHED;
+        }
+
+        if (!$model->type) {
+            $model->type = self::TYPE_GENERIC;
+        }
+
+        if (!$model->date) {
+            $model->date = now();
+        }
+    }
 
     public function object_model()
     {
