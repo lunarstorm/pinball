@@ -23,11 +23,6 @@ class BaseModel extends Model
         return Schema::hasColumn($this->getTable(), $column);
     }
 
-    protected function serializeDate(DateTimeInterface $date)
-    {
-        return $date->format('Y-m-d H:i:s');
-    }
-
     public static function setDefaults($model)
     {
         // To be overridden
