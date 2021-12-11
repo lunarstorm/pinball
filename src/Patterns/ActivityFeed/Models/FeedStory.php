@@ -25,13 +25,15 @@ class FeedStory extends BaseModel
 
     protected $hidden = ['meta'];
 
-    protected $fillabe = [
-        'status'
-    ];
+    protected $guarded = [];
 
     protected $casts = [
         'date' => 'datetime',
         'meta' => 'array'
+    ];
+
+    protected $appends = [
+        'headline'
     ];
 
     public static function boot()
@@ -41,6 +43,11 @@ class FeedStory extends BaseModel
         static::saved(function (FeedStory $model) {
             $model->setGroupings();
         });
+    }
+
+    public static function make(array $attributes = [])
+    {
+        return new FeedStory($attributes);
     }
 
     public static function setDefaults($model)
@@ -64,17 +71,17 @@ class FeedStory extends BaseModel
             ->whereName('default');
     }
 
-    public function object_model()
+    public function objectModel()
     {
         return $this->morphTo(null, 'object', 'object_id');
     }
 
-    public function target_model()
+    public function targetModel()
     {
         return $this->morphTo(null, 'target', 'target_id');
     }
 
-    public function target2_model()
+    public function target2Model()
     {
         return $this->morphTo(null, 'target2', 'target2_id');
     }
@@ -314,5 +321,9 @@ class FeedStory extends BaseModel
         return $qry->update([
             'status' => static::STATUS_VOID
         ]);
+    }
+
+    public function getHeadlineAttribute(){
+        return 'hey';
     }
 }
