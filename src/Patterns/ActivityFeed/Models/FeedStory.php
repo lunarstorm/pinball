@@ -34,6 +34,15 @@ class FeedStory extends BaseModel
         'meta' => 'array'
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saved(function (FeedStory $model) {
+            $model->setGroupings();
+        });
+    }
+
     public static function setDefaults($model)
     {
         if (!$model->status) {
@@ -47,6 +56,12 @@ class FeedStory extends BaseModel
         if (!$model->date) {
             $model->date = now();
         }
+    }
+
+    public function grouping()
+    {
+        return $this->hasOne(FeedGroup::class, 'story_id')
+            ->whereName('default');
     }
 
     public function object_model()
@@ -77,6 +92,37 @@ class FeedStory extends BaseModel
     public function scopePublished(Builder $query)
     {
         return $query->where('status', static::STATUS_PUBLISHED);
+    }
+
+    public function setGroupings()
+    {
+        FeedGroup::assign($this->id, $this->family_hash);
+    }
+
+    public function getFamilyHashAttribute()
+    {
+        $obj = $this->object;
+
+        if ($this->hasColumn('object_type')) {
+            $obj .= ":{$this->object_type}";
+        }
+
+        $actorId = $this->user_id ?: $this->actor_id;
+        $hash = "{$actorId}:{$this->verb}:{$obj}";
+
+        if ($this->hasColumn('target') && $this->target) {
+            $hash .= ":{$this->target}";
+        }
+
+        if ($this->hasColumn('target_id') && $this->target_id) {
+            $hash .= ":{$this->target_id}";
+        }
+
+        if ($date = optional($this->date)->format('Ymd')) {
+            $hash .= ":$date";
+        }
+
+        return $hash;
     }
 
     public function assignObjectTokens($key, $pair = [])
