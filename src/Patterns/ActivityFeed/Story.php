@@ -41,6 +41,7 @@ abstract class Story
         $story->actor = data_get($params, 'actor');
         $story->object = data_get($params, 'object');
         $story->target = data_get($params, 'target');
+        
         return $story;
     }
 
