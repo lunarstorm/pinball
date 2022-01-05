@@ -10,6 +10,7 @@ class ReceiptHelper
     public static function process($invoice = [])
     {
         $defaults = [
+            'TxnDate' => now()->format('Y-m-d'),
             'Line' => [],
             'CustomerRef' => [
                 'value' => null,
