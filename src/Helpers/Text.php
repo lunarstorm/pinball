@@ -7,7 +7,6 @@ namespace Vio\Pinball\Helpers;
  */
 class Text
 {
-
     /**
      * Contains a cache map of previously humanized words.
      *
@@ -19,7 +18,7 @@ class Text
     {
         $string = trim($string);
 
-        if(!strlen($string)){
+        if (!strlen($string)) {
             return $string;
         }
 
@@ -60,7 +59,7 @@ class Text
 
     public static function properize($string)
     {
-        return $string.'\''.($string[strlen($string) - 1] != 's' ? 's' : '');
+        return $string . '\'' . ($string[strlen($string) - 1] != 's' ? 's' : '');
     }
 
     public static function generateString($length = 8)
@@ -103,7 +102,7 @@ class Text
             /*  Need to chop of some words
              */
             array_splice($array, $wordsreturned);
-            $retval = implode(" ", $array)." ...";
+            $retval = implode(" ", $array) . " ...";
         }
         return $retval;
     }
@@ -262,7 +261,7 @@ class Text
             for ($t = floor(log($in, $base)); $t >= 0; $t--) {
                 $bcp = bcpow($base, $t);
                 $a = floor($in / $bcp) % $base;
-                $out = $out.substr($index, $a, 1);
+                $out = $out . substr($index, $a, 1);
                 $in = $in - ($a * $bcp);
             }
             $out = strrev($out); // reverse
@@ -323,14 +322,14 @@ class Text
 
         foreach ($matchWords as $key => $item) {
             if ($item == '' || in_array(strtolower($item), $stopWords) || strlen($item) <= 3) {
-                unset ($matchWords[$key]);
+                unset($matchWords[$key]);
             }
         }
         $wordCountArr = [];
         if (is_array($matchWords)) {
             foreach ($matchWords as $key => $val) {
                 $val = strtolower($val);
-                if (isset ($wordCountArr[$val])) {
+                if (isset($wordCountArr[$val])) {
                     $wordCountArr[$val]++;
                 } else {
                     $wordCountArr[$val] = 1;
@@ -537,7 +536,7 @@ class Text
      */
     public static function humanize($word, $separator = '_')
     {
-        if (isset(static::$_humanized[$key = $word.':'.$separator])) {
+        if (isset(static::$_humanized[$key = $word . ':' . $separator])) {
             return static::$_humanized[$key];
         }
         return static::$_humanized[$key] = ucwords(str_replace($separator, " ", $word));
@@ -584,7 +583,7 @@ class Text
                 $pre = substr($text, 0, $pos);
                 $post = substr($text, $pos + $sub_len);
 
-                $fail_text = $pre_hit.$hit;
+                $fail_text = $pre_hit . $hit;
                 $fail_len = strlen($fail_text);
 
                 #
@@ -629,7 +628,7 @@ class Text
             if ($ok) {
                 if (preg_match('/^([a-z0-9\-\.\/\-_%~!?=,:;&+*#@\(\)\$]+)/i', $post, $matches)) {
 
-                    $url = $hit.$matches[1];
+                    $url = $hit . $matches[1];
 
                     $cursor += strlen($url) + strlen($pre_hit);
                     $buffer .= $pre_hit;
@@ -661,7 +660,7 @@ class Text
                     $display_url = $url;
 
                     if ($force_prefix) {
-                        $link_url = $force_prefix.$link_url;
+                        $link_url = $force_prefix . $link_url;
                     }
 
                     if ($GLOBALS['autolink_options']['strip_protocols']) {
@@ -683,7 +682,7 @@ class Text
 
                         if (!preg_match("!^(http|https)://{$display_quoted}$!i", $link_url)) {
 
-                            $tagfill .= ' title="'.$link_url.'"';
+                            $tagfill .= ' title="' . $link_url . '"';
                         }
                     }
 
@@ -718,7 +717,7 @@ class Text
         }
 
         if (strlen($text) > $limit) {
-            return substr($text, 0, $limit - 3).'...';
+            return substr($text, 0, $limit - 3) . '...';
         }
 
         return $text;
@@ -755,7 +754,7 @@ class Text
                 $hit = substr($text, $pos, 1);
                 $post = substr($text, $pos + 1);
 
-                $fail_text = $pre.$hit;
+                $fail_text = $pre . $hit;
                 $fail_len = strlen($fail_text);
 
                 #die("$pre::$hit::$post::$fail_text");
@@ -788,7 +787,7 @@ class Text
                     $len = strlen($matches[1]);
                     $plen = strlen($pre);
 
-                    $hit = substr($pre, $plen - $len).$hit;
+                    $hit = substr($pre, $plen - $len) . $hit;
                     $pre = substr($pre, 0, $plen - $len);
                 } else {
 
@@ -841,5 +840,17 @@ class Text
         $buffer .= substr($text, $cursor);
 
         return $buffer;
+    }
+
+    public static function extractEmails($string)
+    {
+        foreach (preg_split('/\s/', $string) as $token) {
+            $email = filter_var(filter_var($token, FILTER_SANITIZE_EMAIL), FILTER_VALIDATE_EMAIL);
+            if ($email !== false) {
+                $emails[] = $email;
+            }
+        }
+
+        return $emails;
     }
 }
