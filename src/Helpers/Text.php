@@ -16,7 +16,7 @@ class Text
 
     public static function acronym($string)
     {
-        $string = trim($string);
+        $string = trim($string ?? '');
 
         if (!strlen($string)) {
             return $string;
@@ -109,7 +109,7 @@ class Text
 
     public static function truncate($string, $n, $suffix = '')
     {
-        $string = trim($string);
+        $string = trim($string ?? '');
 
         if (strlen($string) <= $n) {
             return $string;
@@ -313,7 +313,7 @@ class Text
         ];
 
         //$string = preg_replace('/s\s+/i', '', $string);
-        $string = trim($string); // trim the string
+        $string = trim($string ?? ''); // trim the string
         $string = preg_replace('/[^a-zA-Z0-9 -]/', '', $string); // only take alphanumerical characters, but keep the spaces and dashes too�
         $string = strtolower($string); // make it lowercase
 
@@ -441,7 +441,7 @@ class Text
 
     public static function lines($string, $lineSize = 0)
     {
-        $lines = preg_split("/\r\n|\n|\r/", trim($string));
+        $lines = preg_split("/\r\n|\n|\r/", trim($string ?? ''));
 
         if ($lineSize > 0) {
             $lines2 = [];
@@ -463,7 +463,7 @@ class Text
         ];
         $o += $defaults;
 
-        $str = trim($str);
+        $str = trim($str ?? '');
         $str = static::escape($str);
         $str = nl2br($str);
 
@@ -544,7 +544,7 @@ class Text
 
     public static function sanitizeEmail($email)
     {
-        return filter_var(trim($email), FILTER_VALIDATE_EMAIL);
+        return filter_var(trim($email ?? ''), FILTER_VALIDATE_EMAIL);
     }
 
     public static function autolink($text, $limit = 30, $tagfill = '', $auto_title = true)
