@@ -48,8 +48,8 @@ class HandleInertiaRequests extends Middleware
                 $ses->forget('flash_notification');
 
                 return [
-                    'name' => env('APP_NAME'),
-                    'url' => env('APP_URL'),
+                    'name' => config('app.name'),
+                    'url' => config('app.url'),
                     'user' => $request->user(),
                     'messages' => $messages,
                 ];
