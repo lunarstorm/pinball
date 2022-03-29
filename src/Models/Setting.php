@@ -44,18 +44,14 @@ class Setting extends Model
 
     public static function getQuery($key, Model $scope = null)
     {
-        $value = null;
-
-        $scopeType = $scope->getMorphClass();
-
         $qry = static::query()
             ->where('key', $key);
 
         if (is_null($scope)) {
-            $qry->whereNull('scope_type');
-            $qry->whereNull('scope_id');
+            $qry->whereNull('scope_type')
+                ->whereNull('scope_id');
         } else {
-            $qry->where('scope_type', $scopeType)
+            $qry->where('scope_type', $scope->getMorphClass())
                 ->where('scope_id', $scope->id);
         }
 
@@ -64,8 +60,7 @@ class Setting extends Model
 
     public static function get($key, Model $scope = null)
     {
-        $setting = static::getQuery($key, $scope)
-            ->first();
+        $setting = static::getQuery($key, $scope)->first();
 
         if (!$setting) {
             return null;
