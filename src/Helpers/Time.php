@@ -46,13 +46,13 @@ class Time
         // Transfer the values in $matches into labeled variables
         $hour = $minute = $second = $month = $day = $year = "";
         foreach ([
-                     'year',
-                     'month',
-                     'day',
-                     'hour',
-                     'minute',
-                     'second',
-                 ] as $var) {
+            'year',
+            'month',
+            'day',
+            'hour',
+            'minute',
+            'second',
+        ] as $var) {
             $$var = array_shift($matches);
         }
 
@@ -67,7 +67,7 @@ class Time
 
         $stamp = "";
         if ($hoursAgo >= 24) {
-            $stamp .= $daysAgo." days";
+            $stamp .= $daysAgo . " days";
         }
         return $stamp;
     }
@@ -174,15 +174,15 @@ class Time
             if ($difference >= $value) {
                 $time = floor($difference / $value);
                 $difference %= $value;
-                $retval .= ($retval ? ' ' : '').$time.' ';
-                $retval .= (($time > 1) ? $key.'s' : $key);
+                $retval .= ($retval ? ' ' : '') . $time . ' ';
+                $retval .= (($time > 1) ? $key . 's' : $key);
                 $granularity--;
             }
             if ($granularity == '0') {
                 break;
             }
         }
-        return ' posted '.$retval.' ago';
+        return ' posted ' . $retval . ' ago';
     }
 
     public static function getTimeAgoStamp($timestamp)
@@ -254,7 +254,7 @@ class Time
 
         $options = [];
         $hours = range(0, 23, $o['stepHours']);
-        $mins = range(0, 59, $o['stepMinutes']) ?: [0];
+        $mins = $o['stepMinutes'] ? range(0, 59, $o['stepMinutes']) : [0];
 
         foreach ($hours as $h) {
             $h12 = static::get24to12hour($h);
