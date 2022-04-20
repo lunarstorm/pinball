@@ -7,7 +7,6 @@ use Vio\Pinball\Helpers\Text;
 
 class EntityKeyValueModel extends KeyValueModel
 {
-
     public static function translate($o)
     {
         $defaults = [
@@ -63,29 +62,25 @@ class EntityKeyValueModel extends KeyValueModel
 
         $conds = [];
 
+        $qry = static::query();
+
         if (is_null($o['obj'])) {
-            $conds[] = ["obj is null"];
+            $qry->whereNull('obj');
         } else {
-            $conds[] = ["obj = ?", $o['obj']];
+            $qry->whereObj($o['obj']);
         }
 
         if (is_null($o['oid'])) {
-            $conds[] = ["oid is null"];
+            $qry->whereNull('oid');
         } else {
-            $conds[] = ["oid = ?", $o['oid']];
+            $qry->whereOid($o['oid']);
         }
 
         if ($key !== '*') {
-            $conds[] = ['`key` = ?', $key];
+            $qry->where('key', '=', $key);
         }
 
-        $conditions = SQLHelper::merge_conditions($conds);
-
-        $row = static::find([
-            'conditions' => $conditions,
-        ]);
-
-        return $row ?: null;
+        return $qry->first();
     }
 
     public static function _all($key, $o = [])
@@ -126,8 +121,9 @@ class EntityKeyValueModel extends KeyValueModel
     {
         $o = static::_parseOptions($o);
 
-        if ($row = static::load($key, $o)) {
-            return $row->{$o['valueField']};
+        if ($row = static::_load($key, $o)) {
+            $col = data_get($o, 'valueField');
+            return data_get($row, $col);
         }
 
         if (is_callable($init)) {
@@ -145,7 +141,7 @@ class EntityKeyValueModel extends KeyValueModel
     public static function set($key, $value, $o = [])
     {
         $o = static::_parseOptions($o);
-        $row = static::load($key, $o);
+        $row = static::_load($key, $o);
 
         if (!$row) {
             $row = static::create([
@@ -155,7 +151,9 @@ class EntityKeyValueModel extends KeyValueModel
             ]);
         }
 
-        $row->update_attribute($o['valueField'], $value);
+        $row->updateQuietly([
+            $o['valueField'] => $value
+        ]);
 
         return $row->{$o['valueField']};
     }
