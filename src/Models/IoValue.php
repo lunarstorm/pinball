@@ -27,7 +27,7 @@ class IoValue extends EntityKeyValueModel
     {
         $o = static::_parseOptions($o);
         $o['valueField'] = 'value_int';
-        return parent::get($key, $o, $init);
+        return intval(parent::get($key, $o, $init));
     }
 
     public static function setInt($key, $value, $o = [])
