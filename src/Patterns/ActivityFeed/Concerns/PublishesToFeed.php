@@ -16,6 +16,5 @@ trait PublishesToFeed
      * @var boolean|null
      */
     public $linkOpensInNewWindow;
-
     
 }
