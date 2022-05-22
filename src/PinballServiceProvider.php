@@ -37,7 +37,7 @@ class PinballServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/pinball.php', 'pinball');
 
-        require_once(__DIR__ . '/Functions/functions.php');
+        //require_once(__DIR__ . '/Functions/functions.php');
 
         // Register the service the package provides.
         $this->app->singleton('pinball', function ($app) {

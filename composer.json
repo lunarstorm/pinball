@@ -10,7 +10,10 @@
         }
     ],
     "homepage": "https://github.com/vio/pinball",
-    "keywords": ["Laravel", "Pinball"],
+    "keywords": [
+        "Laravel",
+        "Pinball"
+    ],
     "require": {
         "illuminate/support": "~5|~7|~8|~9"
     },
@@ -22,7 +25,10 @@
         "psr-4": {
             "Vio\\Pinball\\": "src/",
             "Pinball\\": "src/"
-        }
+        },
+        "files": [
+            "src/Functions/functions.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
