@@ -2,8 +2,8 @@
 
 namespace Vio\Pinball\Patterns\ActivityFeed\Contracts;
 
-interface Publishable {
-
+interface Publishable
+{
     /**
      * Returns an array representation of the publishable
      * object for activity feeds.
@@ -27,5 +27,4 @@ interface Publishable {
      * @return string|null
      */
     public function feedLink();
-
 }

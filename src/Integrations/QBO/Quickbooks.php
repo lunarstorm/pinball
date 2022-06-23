@@ -2,24 +2,24 @@
 
 namespace Vio\Pinball\Integrations\QBO;
 
-use Vio\Pinball\Models\IoData;
-use Vio\Pinball\Helpers\Date;
+use Illuminate\Support\Facades\Log;
 use QuickBooksOnline\API\Core\OAuth\OAuth2\OAuth2LoginHelper;
 use QuickBooksOnline\API\DataService\DataService;
-use anlutro\LaravelSettings\SettingStore;
-use Illuminate\Support\Facades\Log;
+use Vio\Pinball\Helpers\Date;
 use Vio\Pinball\Models\Setting;
 
 class Quickbooks
 {
-
     public static $values = [];
+
     public static $errors = [];
+
     public static $userResolver = null;
 
     public static function set($key, $value)
     {
         static::$values[$key] = $value;
+
         return static::get($key);
     }
 
@@ -31,9 +31,9 @@ class Quickbooks
     public static function urls()
     {
         if (app()->environment('production')) {
-            $baseUrl = "https://quickbooks.api.intuit.com";
+            $baseUrl = 'https://quickbooks.api.intuit.com';
         } else {
-            $baseUrl = "https://sandbox-quickbooks.api.intuit.com";
+            $baseUrl = 'https://sandbox-quickbooks.api.intuit.com';
         }
 
         $authUrl = static::get('AUTH_URL');
@@ -59,7 +59,7 @@ class Quickbooks
             'ClientID' => static::get('CLIENT_ID'),
             'ClientSecret' => static::get('CLIENT_SECRET'),
             'RedirectURI' => $urls['redirect'],
-            'scope' => "com.intuit.quickbooks.accounting",
+            'scope' => 'com.intuit.quickbooks.accounting',
             'baseUrl' => $urls['base'],
         ]);
 
@@ -75,22 +75,24 @@ class Quickbooks
 
         $user = auth()->user();
 
-        Log::info("Quickbooks fetchCompanyInfo()", $o);
+        Log::info('Quickbooks fetchCompanyInfo()', $o);
 
         if ($o['refresh']) {
-            if ($ds = Quickbooks::ds()) {
+            if ($ds = self::ds()) {
                 try {
                     $data = $ds->getCompanyInfo();
-                    $data = (array)$data;
-                    Log::info("Quickbooks getCompanyInfo()", $data);
+                    $data = (array) $data;
+                    Log::info('Quickbooks getCompanyInfo()', $data);
                     Setting::set('qbo.companyInfo', $data, $user);
+
                     return $data;
                 } catch (\Exception $e) {
-                    Log::error("Error fetching Quickbooks Company Info: " . $e->getMessage(), $e);
+                    Log::error('Error fetching Quickbooks Company Info: '.$e->getMessage(), $e);
+
                     return false;
                 }
             } else {
-                Log::error("Quickbooks returned empty dataservice");
+                Log::error('Quickbooks returned empty dataservice');
             }
         }
 
@@ -110,6 +112,7 @@ class Quickbooks
     {
         if (is_callable(static::$userResolver)) {
             $userResolver = static::$userResolver;
+
             return call_user_func($userResolver, $uid);
         }
 
@@ -128,7 +131,7 @@ class Quickbooks
 
         if ($o['refresh']) {
             // trigger a token update
-            Quickbooks::ds(['refresh' => true]);
+            self::ds(['refresh' => true]);
         }
 
         $user = auth()->user();
@@ -152,9 +155,10 @@ class Quickbooks
                 'accessTokenExpiry' => $accessToken->getAccessTokenExpiresAt(),
                 'refreshToken' => $accessToken->getRefreshToken(),
                 'refreshTokenExpiry' => $accessToken->getRefreshTokenExpiresAt(),
-                'raw' => (array)$accessToken,
+                'raw' => (array) $accessToken,
             ];
             Setting::set('qbo', $qbo, $user);
+
             return $qbo;
         }
 
@@ -163,12 +167,13 @@ class Quickbooks
 
     public static function _clearSavedData($user = null)
     {
-        if (!$user) {
+        if (! $user) {
             $user = auth()->user();
         }
         Setting::set('qbo', null, $user);
         Setting::set('qbo.companyInfo', null, $user);
         Setting::set('qbo.items', null, $user);
+
         return true;
     }
 
@@ -183,10 +188,11 @@ class Quickbooks
             $oauth2LoginHelper = new OAuth2LoginHelper($cid, $secret);
             $revokeResult = $oauth2LoginHelper->revokeToken(data_get($qbo, 'refreshToken'));
             static::_clearSavedData();
+
             return true;
         } catch (\Exception $e) {
             /* print_pre($e->getMessage());
-			die(); */
+            die(); */
             static::_clearSavedData();
         }
 
@@ -218,7 +224,7 @@ class Quickbooks
 
                 $diff = Date::diff(data_get($qbo, 'accessTokenExpiry'));
                 /*print_pre($diff);
-				die();*/
+                die();*/
                 if ($diff['m'] < 10) {
                     $o['refresh'] = true;
                 }
@@ -237,9 +243,9 @@ class Quickbooks
 
                 return $dataService;
             } catch (\Exception $e) {
-                Log::error("Quickbooks DataService exception", [
+                Log::error('Quickbooks DataService exception', [
                     'message' => $e->getMessage(),
-                    'trace' => $e->getTraceAsString()
+                    'trace' => $e->getTraceAsString(),
                 ]);
             }
         }
@@ -256,29 +262,30 @@ class Quickbooks
     {
         $items = [];
 
-        if ($ds = Quickbooks::ds()) {
+        if ($ds = self::ds()) {
             $i = 0;
 
             while (1) {
                 $allItems = $ds->FindAll('Item', $i, 500);
                 $error = $ds->getLastError();
                 if ($error) {
-                    $msg = "The Status code is: " . $error->getHttpStatusCode() . "\n";
-                    $msg .= "The Helper message is: " . $error->getOAuthHelperError() . "\n";
-                    $msg .= "The Response message is: " . $error->getResponseBody() . "\n";
+                    $msg = 'The Status code is: '.$error->getHttpStatusCode()."\n";
+                    $msg .= 'The Helper message is: '.$error->getOAuthHelperError()."\n";
+                    $msg .= 'The Response message is: '.$error->getResponseBody()."\n";
                     static::$errors[] = $msg;
+
                     return false;
                 }
-                if (!$allItems || (0 == count($allItems))) {
+                if (! $allItems || (0 == count($allItems))) {
                     break;
                 }
                 foreach ($allItems as $item) {
                     /*echo "Customer[" . ($i++) . "]: {$oneCustomer->DisplayName}\n";
-					echo "\t * Id: [{$oneCustomer->Id}]\n";
-					echo "\t * Active: [{$oneCustomer->Active}]\n";
-					echo "\n";*/
+                    echo "\t * Id: [{$oneCustomer->Id}]\n";
+                    echo "\t * Active: [{$oneCustomer->Active}]\n";
+                    echo "\n";*/
 
-                    $items[] = (array)$item;
+                    $items[] = (array) $item;
                 }
 
                 break;
@@ -292,27 +299,28 @@ class Quickbooks
     {
         $items = [];
 
-        if ($ds = Quickbooks::ds()) {
+        if ($ds = self::ds()) {
             $i = 0;
 
             while (1) {
                 $allCustomers = $ds->FindAll('Customer', $i, 1000);
                 $error = $ds->getLastError();
                 if ($error) {
-                    $msg = "The Status code is: " . $error->getHttpStatusCode() . "\n";
-                    $msg .= "The Helper message is: " . $error->getOAuthHelperError() . "\n";
-                    $msg .= "The Response message is: " . $error->getResponseBody() . "\n";
+                    $msg = 'The Status code is: '.$error->getHttpStatusCode()."\n";
+                    $msg .= 'The Helper message is: '.$error->getOAuthHelperError()."\n";
+                    $msg .= 'The Response message is: '.$error->getResponseBody()."\n";
                     static::$errors[] = $msg;
+
                     return false;
                 }
-                if (!$allCustomers || (0 == count($allCustomers))) {
+                if (! $allCustomers || (0 == count($allCustomers))) {
                     break;
                 }
                 foreach ($allCustomers as $oneCustomer) {
                     /*echo "Customer[" . ($i++) . "]: {$oneCustomer->DisplayName}\n";
-					echo "\t * Id: [{$oneCustomer->Id}]\n";
-					echo "\t * Active: [{$oneCustomer->Active}]\n";
-					echo "\n";*/
+                    echo "\t * Id: [{$oneCustomer->Id}]\n";
+                    echo "\t * Active: [{$oneCustomer->Active}]\n";
+                    echo "\n";*/
 
                     $text = "[{$oneCustomer->Id}] {$oneCustomer->DisplayName} (Active: {$oneCustomer->Active})";
                     $value = $oneCustomer->Id;
@@ -337,27 +345,28 @@ class Quickbooks
     {
         $items = [];
 
-        if ($ds = Quickbooks::init()) {
+        if ($ds = self::init()) {
             $i = 0;
 
             while (1) {
                 $results = $ds->FindAll('Account', $i, 500);
                 $error = $ds->getLastError();
                 if ($error) {
-                    $msg = "The Status code is: " . $error->getHttpStatusCode() . "\n";
-                    $msg .= "The Helper message is: " . $error->getOAuthHelperError() . "\n";
-                    $msg .= "The Response message is: " . $error->getResponseBody() . "\n";
+                    $msg = 'The Status code is: '.$error->getHttpStatusCode()."\n";
+                    $msg .= 'The Helper message is: '.$error->getOAuthHelperError()."\n";
+                    $msg .= 'The Response message is: '.$error->getResponseBody()."\n";
                     static::$errors[] = $msg;
+
                     return false;
                 }
-                if (!$results || (0 == count($results))) {
+                if (! $results || (0 == count($results))) {
                     break;
                 }
                 foreach ($results as $row) {
                     /*echo "Customer[" . ($i++) . "]: {$oneCustomer->DisplayName}\n";
-					echo "\t * Id: [{$oneCustomer->Id}]\n";
-					echo "\t * Active: [{$oneCustomer->Active}]\n";
-					echo "\n";*/
+                    echo "\t * Id: [{$oneCustomer->Id}]\n";
+                    echo "\t * Active: [{$oneCustomer->Active}]\n";
+                    echo "\n";*/
 
                     $text = "[{$row->Id}] {$row->Name}, Type:{$row->AccountType}, SubType:{$row->AccountSubType} (Active: {$row->Active})";
                     $value = $row->Id;
@@ -384,12 +393,14 @@ class Quickbooks
     {
         $user = auth()->user();
         $qboCustomerId = Setting::get("qboCustomerId/{$client}", $user) ?: '';
+
         return $qboCustomerId;
     }
 
     public static function setCustomerMapping($client, $custId)
     {
         $user = auth()->user();
+
         return Setting::set("qboCustomerId/{$client}", $custId, $user);
     }
 

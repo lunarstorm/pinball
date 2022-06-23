@@ -4,18 +4,19 @@ namespace Vio\Pinball\Helpers;
 
 class Filter
 {
-
     public static function params($defaults = [], $params = [])
     {
         $params = array_filter($params);
         $params += $defaults;
         $params = array_intersect_key($params, $defaults);
+
         return $params;
     }
 
     public static function value($in, $o = [])
     {
         $out = trim($in);
+
         return $out;
     }
 
@@ -41,16 +42,16 @@ class Filter
         ];
         $o += $defaults;
 
-        if (!is_array($o['exclude'])) {
+        if (! is_array($o['exclude'])) {
             $o['exclude'] = [$o['exclude']];
         }
 
-        if (!is_array($in)) {
+        if (! is_array($in)) {
             $in = [$in];
         }
 
         $out = array_filter($in, function ($value) {
-            return ($value !== null && $value !== false && $value !== '');
+            return $value !== null && $value !== false && $value !== '';
         });
 
         if ($exclude = $o['exclude']) {
@@ -138,7 +139,7 @@ class Filter
         $o += $defaults;
 
         foreach ($o['defaults'] as $key => $val) {
-            if (!is_array($val)) {
+            if (! is_array($val)) {
                 $o['defaults'][$key] = strval($val);
             }
         }

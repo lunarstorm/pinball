@@ -2,8 +2,8 @@
 
 namespace Vio\Pinball\Legacy\io\models;
 
-use Vio\Pinball\Legacy\io\util\SQLHelper;
 use Vio\Pinball\Helpers\Text;
+use Vio\Pinball\Legacy\io\util\SQLHelper;
 
 class EntityKeyValueModel extends KeyValueModel
 {
@@ -14,7 +14,7 @@ class EntityKeyValueModel extends KeyValueModel
             'oid' => null,
         ];
 
-        if (!is_array($o)) {
+        if (! is_array($o)) {
             if (is_string($o)) {
                 $o = [
                     'obj' => $o,
@@ -90,15 +90,15 @@ class EntityKeyValueModel extends KeyValueModel
         $conds = [];
 
         if (is_null($o['obj'])) {
-            $conds[] = ["obj is null"];
+            $conds[] = ['obj is null'];
         } else {
-            $conds[] = ["obj = ?", $o['obj']];
+            $conds[] = ['obj = ?', $o['obj']];
         }
 
         if (is_null($o['oid'])) {
-            $conds[] = ["oid is null"];
+            $conds[] = ['oid is null'];
         } else {
-            $conds[] = ["oid = ?", $o['oid']];
+            $conds[] = ['oid = ?', $o['oid']];
         }
 
         if (Text::endsWith('*', $key)) {
@@ -123,6 +123,7 @@ class EntityKeyValueModel extends KeyValueModel
 
         if ($row = static::_load($key, $o)) {
             $col = data_get($o, 'valueField');
+
             return data_get($row, $col);
         }
 
@@ -143,7 +144,7 @@ class EntityKeyValueModel extends KeyValueModel
         $o = static::_parseOptions($o);
         $row = static::_load($key, $o);
 
-        if (!$row) {
+        if (! $row) {
             $row = static::create([
                 'obj' => $o['obj'],
                 'oid' => $o['oid'],
@@ -152,7 +153,7 @@ class EntityKeyValueModel extends KeyValueModel
         }
 
         $row->updateQuietly([
-            $o['valueField'] => $value
+            $o['valueField'] => $value,
         ]);
 
         return $row->{$o['valueField']};

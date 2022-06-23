@@ -2,13 +2,11 @@
 
 namespace Vio\Pinball\Models;
 
-use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 
 class BaseModel extends Model
 {
-
     public static function boot()
     {
         parent::boot();
@@ -49,6 +47,7 @@ class BaseModel extends Model
 
         $model->setRawAttributes($attributesToSet);
         static::setDefaults($model);
+
         return $model;
     }
 
@@ -58,7 +57,7 @@ class BaseModel extends Model
         $columns = Schema::getColumnListing($table);
 
         $data = collect($data)->reject(function ($value, $key) use ($columns) {
-            return !in_array($key, $columns);
+            return ! in_array($key, $columns);
         })->toArray();
 
         return parent::forceFill($data);

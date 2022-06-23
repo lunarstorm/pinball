@@ -54,14 +54,15 @@ class MakeInertiaPage extends Command
         return 0;
     }
 
-    protected function resolveTemplate(){
+    protected function resolveTemplate()
+    {
         $type = $this->option('type');
 
-        switch (strtolower($type)){
-            case "index":
-                return "Pages/Resource/ResourceIndex";
+        switch (strtolower($type)) {
+            case 'index':
+                return 'Pages/Resource/ResourceIndex';
         }
 
-        return "default";
+        return 'default';
     }
 }

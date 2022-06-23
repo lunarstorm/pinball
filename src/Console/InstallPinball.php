@@ -18,12 +18,9 @@ use Symfony\Component\Process\Process;
  *
  * Much of this code has been adapted from the InstallCommand of
  * the Laravel\Jetstream starter kit.
- *
- * @package Vio\Pinball\Console
  */
 class InstallPinball extends Command
 {
-
     /**
      * The name and signature of the console command.
      *
@@ -48,7 +45,7 @@ class InstallPinball extends Command
 
     protected function installExtras()
     {
-        $this->info("Installing common extras...");
+        $this->info('Installing common extras...');
         $this->requireComposerPackages([
             'laracasts/flash:^3.2',
             //'aws/aws-sdk-php:^3',
@@ -64,7 +61,7 @@ class InstallPinball extends Command
     protected function installPinballStack()
     {
         // Install Inertia...
-        $this->info("Installing essential Laravel packages...");
+        $this->info('Installing essential Laravel packages...');
         $this->requireComposerPackages([
             'inertiajs/inertia-laravel:^0.4.2',
             'laravel/sanctum:^2.6',
@@ -75,7 +72,7 @@ class InstallPinball extends Command
         $this->installExtras();
 
         // Install NPM packages...
-        $this->info("Adding common NPM packages to package.json...");
+        $this->info('Adding common NPM packages to package.json...');
 
         // Non-dev dependencies
         $this->updateNodePackages(function ($packages) {
@@ -144,8 +141,8 @@ class InstallPinball extends Command
         (new Filesystem)->ensureDirectoryExists(resource_path('views'));
 
         // Service Providers...
-        copy(__DIR__ . '/../../stubs/app/Providers/PinballServiceProvider.php', app_path('Providers/PinballServiceProvider.php'));
-        copy(__DIR__ . '/../../stubs/inertia/app/Providers/FortifyServiceProvider.php', app_path('Providers/FortifyServiceProvider.php'));
+        copy(__DIR__.'/../../stubs/app/Providers/PinballServiceProvider.php', app_path('Providers/PinballServiceProvider.php'));
+        copy(__DIR__.'/../../stubs/inertia/app/Providers/FortifyServiceProvider.php', app_path('Providers/FortifyServiceProvider.php'));
 
         $this->installServiceProviderAfter('AuthServiceProvider', 'PinballServiceProvider');
         $this->installServiceProviderAfter('AuthServiceProvider', 'FortifyServiceProvider');
@@ -160,39 +157,39 @@ class InstallPinball extends Command
         $this->installMiddlewareAfter('SubstituteBindings::class', '\App\Http\Middleware\HandleInertiaRequests::class');
 
         // Models...
-        copy(__DIR__ . '/../../stubs/app/Models/User.php', app_path('Models/User.php'));
+        copy(__DIR__.'/../../stubs/app/Models/User.php', app_path('Models/User.php'));
 
         // Factories...
         // ...
 
         // Actions...
-        copy(__DIR__ . '/../../stubs/app/Actions/Fortify/CreateNewUser.php', app_path('Actions/Fortify/CreateNewUser.php'));
+        copy(__DIR__.'/../../stubs/app/Actions/Fortify/CreateNewUser.php', app_path('Actions/Fortify/CreateNewUser.php'));
 
         // Blade Views...
-        copy(__DIR__ . '/../../stubs/inertia/resources/views/app.blade.php', resource_path('views/app.blade.php'));
+        copy(__DIR__.'/../../stubs/inertia/resources/views/app.blade.php', resource_path('views/app.blade.php'));
 
         if (file_exists(resource_path('views/welcome.blade.php'))) {
             unlink(resource_path('views/welcome.blade.php'));
         }
 
         // Inertia Pages...
-        copy(__DIR__ . '/../../stubs/inertia/resources/js/Pages/Home.vue', resource_path('js/Pages/Home.vue'));
-        copy(__DIR__ . '/../../stubs/inertia/resources/js/Pages/Error.vue', resource_path('js/Pages/Error.vue'));
-        (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/inertia/resources/js/Layouts', resource_path('js/Layouts'));
-        (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/inertia/resources/js/Pages/Auth', resource_path('js/Pages/Auth'));
+        copy(__DIR__.'/../../stubs/inertia/resources/js/Pages/Home.vue', resource_path('js/Pages/Home.vue'));
+        copy(__DIR__.'/../../stubs/inertia/resources/js/Pages/Error.vue', resource_path('js/Pages/Error.vue'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/inertia/resources/js/Layouts', resource_path('js/Layouts'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/inertia/resources/js/Pages/Auth', resource_path('js/Pages/Auth'));
 
         // Inertia Middleware
-        copy(__DIR__ . '/../../stubs/inertia/app/Http/Middleware/HandleInertiaRequests.php', app_path('Http/Middleware/HandleInertiaRequests.php'));
+        copy(__DIR__.'/../../stubs/inertia/app/Http/Middleware/HandleInertiaRequests.php', app_path('Http/Middleware/HandleInertiaRequests.php'));
 
         // Routes...
         $this->replaceInFile('auth:api', 'auth:sanctum', base_path('routes/api.php'));
 
-        copy(__DIR__ . '/../../stubs/inertia/routes/web.php', base_path('routes/web.php'));
+        copy(__DIR__.'/../../stubs/inertia/routes/web.php', base_path('routes/web.php'));
 
         // Assets...
-        copy(__DIR__ . '/../../stubs/webpack.mix.js', base_path('webpack.mix.js'));
-        copy(__DIR__ . '/../../stubs/inertia/resources/js/app.js', resource_path('js/app.js'));
-        copy(__DIR__ . '/../../stubs/inertia/resources/sass/app.scss', resource_path('sass/app.scss'));
+        copy(__DIR__.'/../../stubs/webpack.mix.js', base_path('webpack.mix.js'));
+        copy(__DIR__.'/../../stubs/inertia/resources/js/app.js', resource_path('js/app.js'));
+        copy(__DIR__.'/../../stubs/inertia/resources/sass/app.scss', resource_path('sass/app.scss'));
 
         // Flush node_modules...
         // static::flushNodeModules();
@@ -215,10 +212,10 @@ class InstallPinball extends Command
      */
     protected function installServiceProviderAfter($after, $name)
     {
-        if (!Str::contains($appConfig = file_get_contents(config_path('app.php')), 'App\\Providers\\' . $name . '::class')) {
+        if (! Str::contains($appConfig = file_get_contents(config_path('app.php')), 'App\\Providers\\'.$name.'::class')) {
             file_put_contents(config_path('app.php'), str_replace(
-                'App\\Providers\\' . $after . '::class,',
-                'App\\Providers\\' . $after . '::class,' . PHP_EOL . '        App\\Providers\\' . $name . '::class,',
+                'App\\Providers\\'.$after.'::class,',
+                'App\\Providers\\'.$after.'::class,'.PHP_EOL.'        App\\Providers\\'.$name.'::class,',
                 $appConfig
             ));
         }
@@ -239,10 +236,10 @@ class InstallPinball extends Command
         $middlewareGroups = Str::before(Str::after($httpKernel, '$middlewareGroups = ['), '];');
         $middlewareGroup = Str::before(Str::after($middlewareGroups, "'$group' => ["), '],');
 
-        if (!Str::contains($middlewareGroup, $name)) {
+        if (! Str::contains($middlewareGroup, $name)) {
             $modifiedMiddlewareGroup = str_replace(
-                $after . ',',
-                $after . ',' . PHP_EOL . '            ' . $name . ',',
+                $after.',',
+                $after.','.PHP_EOL.'            '.$name.',',
                 $middlewareGroup,
             );
 
@@ -289,7 +286,7 @@ class InstallPinball extends Command
      */
     protected static function updateNodePackages(callable $callback, $dev = true)
     {
-        if (!file_exists(base_path('package.json'))) {
+        if (! file_exists(base_path('package.json'))) {
             return;
         }
 
@@ -306,7 +303,7 @@ class InstallPinball extends Command
 
         file_put_contents(
             base_path('package.json'),
-            json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . PHP_EOL
+            json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT).PHP_EOL
         );
     }
 

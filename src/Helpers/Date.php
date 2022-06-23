@@ -4,12 +4,11 @@ namespace Vio\Pinball\Helpers;
 
 class Date
 {
-
     public static function format($format, $in = null)
     {
         $ts = null;
 
-        if (!$in) {
+        if (! $in) {
             return '';
         }
 
@@ -61,7 +60,7 @@ class Date
 
     public static function daysAfter($days, $date, $format = null)
     {
-        if (!$date) {
+        if (! $date) {
             return false;
         }
 
@@ -77,7 +76,7 @@ class Date
 
     public static function daysBefore($days, $date, $format = null)
     {
-        if (!$date) {
+        if (! $date) {
             return false;
         }
 
@@ -115,6 +114,7 @@ class Date
             $ts = time();
         }
         $daysRemaining = (int) date('t', $ts) - (int) date('j', $ts);
+
         return $daysRemaining;
     }
 
@@ -132,32 +132,32 @@ class Date
         if ($days == 0) {
             $days = 1;
         }
+
         return $days;
     }
 
-    public static function getTimeAgo($datetime, $units = 2, $suffix = " ago")
+    public static function getTimeAgo($datetime, $units = 2, $suffix = ' ago')
     {
-
         if ($datetime instanceof \DateTime) {
             $time = $datetime->getTimestamp();
         } else {
             $time = strtotime($datetime);
         }
 
-        if (!$time) {
+        if (! $time) {
             return '';
         }
 
         $timeAgo = Time::getTimeElapsed($time, $units);
 
-        if (!$timeAgo) {
+        if (! $timeAgo) {
             return __('just now');
         }
 
         return __('{:time} ago', ['time' => $timeAgo]);
     }
 
-    public static function getTimeTo($date, $units = 2, $suffix = "")
+    public static function getTimeTo($date, $units = 2, $suffix = '')
     {
         if ($date instanceof \DateTime) {
             $unixtime = $date->getTimestamp();
@@ -165,6 +165,7 @@ class Date
             $unixtime = Time::mysqlToUnixTime($date);
         }
         $timeAgo = Time::getTimeElapsed($unixtime, $units, true);
+
         return $timeAgo.$suffix;
     }
 
@@ -178,6 +179,7 @@ class Date
     public static function daySymbol($w)
     {
         $days = static::daysOfWeekSymbols();
+
         return $days[$w];
     }
 
@@ -216,6 +218,7 @@ class Date
             '11' => '11',
             '12' => '12',
         ];
+
         return $months;
     }
 
@@ -254,6 +257,7 @@ class Date
             '30' => '30',
             '31' => '31',
         ];
+
         return $days;
     }
 
@@ -312,5 +316,4 @@ class Date
 
         return $months;
     }
-
 }

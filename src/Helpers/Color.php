@@ -6,7 +6,6 @@ use Exception;
 
 class Color
 {
-
     public static function trimHex($h)
     {
         return ltrim($h, '#');
@@ -41,6 +40,7 @@ class Color
             if ($val <= 0.03928) {
                 return $val / 12.92;
             }
+
             return pow(($val + 0.055) / 1.055, 2.4);
         }, $uicolors);
 
@@ -59,10 +59,10 @@ class Color
     public static function unique($text, $min_brightness = 50, $spec = 10)
     {
         // Check inputs
-        if (!is_int($min_brightness)) {
+        if (! is_int($min_brightness)) {
             throw new Exception("$min_brightness is not an integer");
         }
-        if (!is_int($spec)) {
+        if (! is_int($spec)) {
             throw new Exception("$spec is not an integer");
         }
         if ($spec < 2 or $spec > 10) {
@@ -78,10 +78,8 @@ class Color
             $colors[$i] = max([round(((hexdec(substr($hash, $spec * $i, $spec))) / hexdec(str_pad('', $spec, 'F'))) * 255), $min_brightness]);
         } //convert hash into 3 decimal values between 0 and 255
 
-        if ($min_brightness > 0)  //only check brightness requirements if min_brightness is about 100
-        {
-            while (array_sum($colors) / 3 < $min_brightness)  //loop until brightness is above or equal to min_brightness
-            {
+        if ($min_brightness > 0) {  //only check brightness requirements if min_brightness is about 100
+            while (array_sum($colors) / 3 < $min_brightness) {  //loop until brightness is above or equal to min_brightness
                 for ($i = 0; $i < 3; $i++) {
                     $colors[$i] += 10;
                 }
@@ -96,5 +94,4 @@ class Color
 
         return '#'.$output;
     }
-
 }

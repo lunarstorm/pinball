@@ -7,7 +7,6 @@ use Vio\Pinball\Models\Setting;
 trait HasSettings
 {
     /**
-     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function settings()
@@ -19,7 +18,7 @@ trait HasSettings
     /**
      * Get the number of settings for the model.
      *
-     * @return integer
+     * @return int
      */
     public function getSettingsCountAttribute()
     {

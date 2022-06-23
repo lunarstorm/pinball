@@ -4,7 +4,6 @@ namespace Vio\Pinball\Patterns\ActivityFeed\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
-use Illuminate\Support\Arr;
 use Vio\Pinball\Models\BaseModel;
 
 class FeedStory extends BaseModel
@@ -12,15 +11,22 @@ class FeedStory extends BaseModel
     use HasTimestamps;
 
     const STATUS_DELETED = -99;
+
     const STATUS_DRAFT = 0;
+
     const STATUS_PUBLISHED = 1;
+
     const STATUS_VOID = -1;
 
     // Deprecated stuff:
     const TYPE_STATUS = 'status';
+
     const TYPE_EVENT = 'event';
+
     const TYPE_POST = 'post';
+
     const TYPE_GENERIC = 'generic';
+
     const TYPE_ACTION = 'action';
 
     protected $hidden = ['meta'];
@@ -29,38 +35,38 @@ class FeedStory extends BaseModel
 
     protected $casts = [
         'date' => 'datetime',
-        'meta' => 'array'
+        'meta' => 'array',
     ];
 
     protected $appends = [
-        'headline'
+        'headline',
     ];
 
     public static function boot()
     {
         parent::boot();
 
-        static::saved(function (FeedStory $model) {
+        static::saved(function (self $model) {
             $model->setGroupings();
         });
     }
 
     public static function make(array $attributes = [])
     {
-        return new FeedStory($attributes);
+        return new self($attributes);
     }
 
     public static function setDefaults($model)
     {
-        if (!$model->status) {
+        if (! $model->status) {
             $model->status = self::STATUS_PUBLISHED;
         }
 
-        if (!$model->type) {
+        if (! $model->type) {
             $model->type = self::TYPE_GENERIC;
         }
 
-        if (!$model->date) {
+        if (! $model->date) {
             $model->date = now();
         }
     }
@@ -88,7 +94,7 @@ class FeedStory extends BaseModel
 
     public function parent()
     {
-        return $this->belongsTo(FeedStory::class, 'parent_id');
+        return $this->belongsTo(self::class, 'parent_id');
     }
 
     public function actor()
@@ -135,8 +141,8 @@ class FeedStory extends BaseModel
     public function assignObjectTokens($key, $pair = [])
     {
         $this->attributes[$key] = data_get($pair, 0, null);
-        $this->attributes[$key . '_id'] = data_get($pair, 1, null);
-        return;
+        $this->attributes[$key.'_id'] = data_get($pair, 1, null);
+
     }
 
     public function setActorAttribute($value)
@@ -214,7 +220,7 @@ class FeedStory extends BaseModel
 
         if ($objectType = data_get($o, 'objectType')) {
             $story->autoFill([
-                'object_type' => $objectType
+                'object_type' => $objectType,
             ]);
         }
 
@@ -270,7 +276,7 @@ class FeedStory extends BaseModel
             }
 
             $qry->whereNull('parent_id')
-                ->whereRaw("date(date) = ?", $story->date->format('Y-m-d'))
+                ->whereRaw('date(date) = ?', $story->date->format('Y-m-d'))
                 ->update([
                     'parent_id' => $story->id,
                 ]);
@@ -319,11 +325,12 @@ class FeedStory extends BaseModel
         }
 
         return $qry->update([
-            'status' => static::STATUS_VOID
+            'status' => static::STATUS_VOID,
         ]);
     }
 
-    public function getHeadlineAttribute(){
+    public function getHeadlineAttribute()
+    {
         return 'hey';
     }
 }

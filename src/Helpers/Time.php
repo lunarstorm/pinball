@@ -14,15 +14,16 @@ class Time
     */
     public static function unixtimeToMysqlDatetime($unixtime = null)
     {
-        if (!$unixtime) {
+        if (! $unixtime) {
             $unixtime = time();
         }
-        return date("Y-m-d H:i:s", $unixtime);
+
+        return date('Y-m-d H:i:s', $unixtime);
     }
 
     public static function dateFormat($format, $mysqltimestamp)
     {
-        return date($format, Time::mysqlToUnixTime($mysqltimestamp));
+        return date($format, self::mysqlToUnixTime($mysqltimestamp));
     }
 
     public static function mysqlToUnixTime($datetime)
@@ -44,7 +45,7 @@ class Time
         array_shift($matches);
 
         // Transfer the values in $matches into labeled variables
-        $hour = $minute = $second = $month = $day = $year = "";
+        $hour = $minute = $second = $month = $day = $year = '';
         foreach ([
             'year',
             'month',
@@ -65,10 +66,11 @@ class Time
         $hoursAgo = $minutesAgo / 60;
         $daysAgo = $hoursAgo / 24;
 
-        $stamp = "";
+        $stamp = '';
         if ($hoursAgo >= 24) {
-            $stamp .= $daysAgo . " days";
+            $stamp .= $daysAgo.' days';
         }
+
         return $stamp;
     }
 
@@ -123,6 +125,7 @@ class Time
                 $iUnitCount++;
             }
         }
+
         return rtrim($sTimeElapsed, ', ');
     }
 
@@ -150,6 +153,7 @@ class Time
                 $iUnitCount++;
             }
         }
+
         return rtrim($sTimeElapsed, ', ');
     }
 
@@ -174,38 +178,39 @@ class Time
             if ($difference >= $value) {
                 $time = floor($difference / $value);
                 $difference %= $value;
-                $retval .= ($retval ? ' ' : '') . $time . ' ';
-                $retval .= (($time > 1) ? $key . 's' : $key);
+                $retval .= ($retval ? ' ' : '').$time.' ';
+                $retval .= (($time > 1) ? $key.'s' : $key);
                 $granularity--;
             }
             if ($granularity == '0') {
                 break;
             }
         }
-        return ' posted ' . $retval . ' ago';
+
+        return ' posted '.$retval.' ago';
     }
 
     public static function getTimeAgoStamp($timestamp)
     {
         $difference = time() - $timestamp;
         $periods = [
-            "second",
-            "minute",
-            "hour",
-            "day",
-            "week",
-            "month",
-            "year",
-            "decade",
+            'second',
+            'minute',
+            'hour',
+            'day',
+            'week',
+            'month',
+            'year',
+            'decade',
         ];
         $lengths = [
-            "60",
-            "60",
-            "24",
-            "7",
-            "4.35",
-            "12",
-            "10",
+            '60',
+            '60',
+            '24',
+            '7',
+            '4.35',
+            '12',
+            '10',
         ];
 
         for ($j = 0; $difference >= $lengths[$j] && $j < 7; $j++) {
@@ -213,9 +218,10 @@ class Time
         }
         $difference = round($difference);
         if ($difference != 1) {
-            $periods[$j] .= "s";
+            $periods[$j] .= 's';
         }
         $text = "$difference $periods[$j] ago";
+
         return $text;
     }
 
@@ -224,17 +230,19 @@ class Time
         if ($hour > 0 && $hour < 13) {
             return $hour;
         }
+
         return $hour % 12 ?: 12;
     }
 
     public static function get12to24hour($hour, $meridian)
     {
         $meridian = strtolower($meridian);
-        if ($meridian == "am") {
+        if ($meridian == 'am') {
             $hour24 = $hour == 12 ? 0 : $hour;
         } else {
             $hour24 = $hour == 12 ? 12 : $hour + 12;
         }
+
         return $hour24;
     }
 
@@ -278,11 +286,12 @@ class Time
 
     public static function format($time, $format = IO_DATE_TIMEONLY)
     {
-        if (!$time) {
+        if (! $time) {
             return '';
         }
 
         $ts = strtotime($time);
+
         return date($format, $ts);
     }
 

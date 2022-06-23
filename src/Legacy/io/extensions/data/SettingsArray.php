@@ -6,9 +6,12 @@ use Vio\Pinball\Models\IoData;
 
 class SettingsArray
 {
-    static $_prefix = '';
+    public static $_prefix = '';
+
     protected static $_defaults = [];
+
     protected $_cfg = [];
+
     protected $_data = [];
 
     public function __construct($prefix = '', $o = [])
@@ -44,6 +47,7 @@ class SettingsArray
         if (is_array($params)) {
             static::$_defaults = $params;
         }
+
         return static::$_defaults;
     }
 
@@ -51,6 +55,7 @@ class SettingsArray
     {
         $data = array_intersect_key($data, static::defaults());
         $this->_data = $data;
+
         return $this->_data;
     }
 
@@ -64,6 +69,7 @@ class SettingsArray
         if ($data = $this->data()) {
             IoData::set($this->_key(), $data);
         }
+
         return true;
     }
 
@@ -72,12 +78,14 @@ class SettingsArray
         $prefix = addslashes($this->_cfg['prefix']);
         $data = IoData::get($prefix) ?: [];
         $this->setData($data);
+
         return $this->data();
     }
 
     public function data()
     {
         $this->_data += static::defaults();
+
         return $this->_data;
     }
 
@@ -89,6 +97,7 @@ class SettingsArray
     public static function get()
     {
         $settings = new static();
+
         return $settings->export();
     }
 }

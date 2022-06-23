@@ -39,7 +39,7 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'session' => function () use ($request) {
                 return $request->session()->only([
-                    'status'
+                    'status',
                 ]);
             },
             'app' => function () use ($request) {

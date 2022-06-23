@@ -2,7 +2,6 @@
 
 namespace Vio\Pinball\Models;
 
-use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,13 +14,13 @@ class Setting extends Model
         'scope_type',
         'scope_id',
         'key',
-        'value'
+        'value',
     ];
 
     protected $casts = [];
 
     protected $appends = [
-        'value'
+        'value',
     ];
 
     /**
@@ -62,7 +61,7 @@ class Setting extends Model
     {
         $setting = static::getQuery($key, $scope)->first();
 
-        if (!$setting) {
+        if (! $setting) {
             return null;
         }
 
@@ -84,7 +83,7 @@ class Setting extends Model
             'scope_id' => $scopeId,
             'key' => $key,
         ], [
-            'value' => $value
+            'value' => $value,
         ]);
 
         return $setting->value;

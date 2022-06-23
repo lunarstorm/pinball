@@ -18,12 +18,12 @@ class Text
     {
         $string = trim($string ?? '');
 
-        if (!strlen($string)) {
+        if (! strlen($string)) {
             return $string;
         }
 
-        $words = explode(" ", $string);
-        $acronym = "";
+        $words = explode(' ', $string);
+        $acronym = '';
 
         foreach ($words as $w) {
             $acronym .= $w[0];
@@ -33,17 +33,15 @@ class Text
     }
 
     /**
-     *
      * @param  string  $needle
      * @param  string  $haystack
      */
     public static function startsWith($needle, $haystack)
     {
-        return !strncmp($haystack, $needle, strlen($needle));
+        return ! strncmp($haystack, $needle, strlen($needle));
     }
 
     /**
-     *
      * @param  string  $needle
      * @param  string  $haystack
      */
@@ -54,18 +52,18 @@ class Text
             return true;
         }
 
-        return (substr($haystack, -$length) === $needle);
+        return substr($haystack, -$length) === $needle;
     }
 
     public static function properize($string)
     {
-        return $string . '\'' . ($string[strlen($string) - 1] != 's' ? 's' : '');
+        return $string.'\''.($string[strlen($string) - 1] != 's' ? 's' : '');
     }
 
     public static function generateString($length = 8)
     {
         $string = '';
-        $vowels = ["a", "e", "i", "o", "u"];
+        $vowels = ['a', 'e', 'i', 'o', 'u'];
         $consonants = [
             'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm',
             'n', 'p', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z',
@@ -75,6 +73,7 @@ class Text
             $string .= $consonants[rand(0, 19)];
             $string .= $vowels[rand(0, 4)];
         }
+
         return $string;
     }
 
@@ -93,7 +92,7 @@ class Text
     {
         $retval = $string;      //  Just in case of a problem
 
-        $array = explode(" ", $string);
+        $array = explode(' ', $string);
         if (count($array) <= $wordsreturned) {
             /*  Already short enough, return the whole thing
              */
@@ -102,8 +101,9 @@ class Text
             /*  Need to chop of some words
              */
             array_splice($array, $wordsreturned);
-            $retval = implode(" ", $array) . " ...";
+            $retval = implode(' ', $array).' ...';
         }
+
         return $retval;
     }
 
@@ -122,16 +122,17 @@ class Text
 
     public static function numeric($str)
     {
-        return preg_replace("/[^0-9.]/", "", $str);
+        return preg_replace('/[^0-9.]/', '', $str);
     }
 
     public static function emptyToNull($values, $replace = null)
     {
         foreach ($values as $key => $value) {
-            if (!is_array($value) && !strlen($value)) {
+            if (! is_array($value) && ! strlen($value)) {
                 $values[$key] = $replace;
             }
         }
+
         return $values;
     }
 
@@ -143,6 +144,7 @@ class Text
             'ù' => 'u', 'Ù' => 'U', 'ŭ' => 'u', 'Ŭ' => 'U', 'û' => 'u', 'Û' => 'U', 'ů' => 'u', 'Ů' => 'U', 'ű' => 'u', 'Ű' => 'U', 'ũ' => 'u', 'Ũ' => 'U', 'ų' => 'u', 'Ų' => 'U', 'ū' => 'u', 'Ū' => 'U', 'ư' => 'u', 'Ư' => 'U', 'ü' => 'ue', 'Ü' => 'UE', 'ẃ' => 'w', 'Ẃ' => 'W', 'ẁ' => 'w', 'Ẁ' => 'W', 'ŵ' => 'w', 'Ŵ' => 'W', 'ẅ' => 'w', 'Ẅ' => 'W', 'ý' => 'y', 'Ý' => 'Y', 'ỳ' => 'y', 'Ỳ' => 'Y', 'ŷ' => 'y', 'Ŷ' => 'Y', 'ÿ' => 'y', 'Ÿ' => 'Y', 'ź' => 'z', 'Ź' => 'Z', 'ž' => 'z', 'Ž' => 'Z', 'ż' => 'z', 'Ż' => 'Z', 'þ' => 'th', 'Þ' => 'Th', 'µ' => 'u', 'а' => 'a', 'А' => 'a', 'б' => 'b', 'Б' => 'b', 'в' => 'v', 'В' => 'v', 'г' => 'g', 'Г' => 'g', 'д' => 'd', 'Д' => 'd', 'е' => 'e', 'Е' => 'E', 'ё' => 'e', 'Ё' => 'E', 'ж' => 'zh', 'Ж' => 'zh', 'з' => 'z', 'З' => 'z', 'и' => 'i', 'И' => 'i', 'й' => 'j', 'Й' => 'j', 'к' => 'k', 'К' => 'k', 'л' => 'l', 'Л' => 'l', 'м' => 'm', 'М' => 'm', 'н' => 'n', 'Н' => 'n', 'о' => 'o', 'О' => 'o', 'п' => 'p', 'П' => 'p', 'р' => 'r', 'Р' => 'r',
             'с' => 's', 'С' => 's', 'т' => 't', 'Т' => 't', 'у' => 'u', 'У' => 'u', 'ф' => 'f', 'Ф' => 'f', 'х' => 'h', 'Х' => 'h', 'ц' => 'c', 'Ц' => 'c', 'ч' => 'ch', 'Ч' => 'ch', 'ш' => 'sh', 'Ш' => 'sh', 'щ' => 'sch', 'Щ' => 'sch', 'ъ' => '', 'Ъ' => '', 'ы' => 'y', 'Ы' => 'y', 'ь' => '', 'Ь' => '', 'э' => 'e', 'Э' => 'e', 'ю' => 'ju', 'Ю' => 'ju', 'я' => 'ja', 'Я' => 'ja',
         ];
+
         return str_replace(array_keys($transliterationTable), array_values($transliterationTable), $txt);
     }
 
@@ -189,7 +191,7 @@ class Text
      * matters feel free to leave a comment.
      *
      * @param  mixed  $in  String or long input to translate
-     * @param  boolean  $to_num  Reverses translation when true
+     * @param  bool  $to_num  Reverses translation when true
      * @param  mixed  $pad_up  Number or boolean padds the result up to a specified length
      * @param  string  $passKey  Supplying a password makes it harder to calculate the original ID
      *
@@ -201,11 +203,10 @@ class Text
      * @license   http://www.opensource.org/licenses/bsd-license.php New BSD Licence
      * @version   SVN: Release: $Id: alphaID.inc.php 344 2009-06-10 17:43:59Z kevin $
      * @link    http://kevin.vanzonneveld.net/
-     *
      */
-    function alphaID($in, $to_num = false, $pad_up = 3, $passKey = null)
+    public function alphaID($in, $to_num = false, $pad_up = 3, $passKey = null)
     {
-        $index = "b1c2d3f4g5h6j7k8l9m0npqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ";
+        $index = 'b1c2d3f4g5h6j7k8l9m0npqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ';
         if ($passKey !== null) {
             // Although this function's purpose is to just make the
             // ID short - and not so much secure,
@@ -257,11 +258,11 @@ class Text
                 }
             }
 
-            $out = "";
+            $out = '';
             for ($t = floor(log($in, $base)); $t >= 0; $t--) {
                 $bcp = bcpow($base, $t);
                 $a = floor($in / $bcp) % $base;
-                $out = $out . substr($index, $a, 1);
+                $out = $out.substr($index, $a, 1);
                 $in = $in - ($a * $bcp);
             }
             $out = strrev($out); // reverse
@@ -270,7 +271,7 @@ class Text
         return $out;
     }
 
-    function extractCommonWords($string)
+    public function extractCommonWords($string)
     {
         $stopWords = [
             'i',
@@ -338,6 +339,7 @@ class Text
         }
         arsort($wordCountArr);
         $wordCountArr = array_slice($wordCountArr, 0, 10);
+
         return $wordCountArr;
     }
 
@@ -345,42 +347,48 @@ class Text
      * Password generator
      * From http://www.dougv.com/blog/2010/03/23/a-strong-password-generator-written-in-php/
      */
-    function generatePassword($l = 8, $c = 2, $n = 2, $s = 0)
+    public function generatePassword($l = 8, $c = 2, $n = 2, $s = 0)
     {
         // get count of all required minimum special chars
         $count = $c + $n + $s;
 
         // sanitize inputs; should be self-explanatory
-        if (!is_int($l) || !is_int($c) || !is_int($n) || !is_int($s)) {
+        if (! is_int($l) || ! is_int($c) || ! is_int($n) || ! is_int($s)) {
             trigger_error('Argument(s) not an integer', E_USER_WARNING);
+
             return false;
         } elseif ($l < 0 || $l > 20 || $c < 0 || $n < 0 || $s < 0) {
             trigger_error('Argument(s) out of range', E_USER_WARNING);
+
             return false;
         } elseif ($c > $l) {
             trigger_error('Number of password capitals required exceeds password length', E_USER_WARNING);
+
             return false;
         } elseif ($n > $l) {
             trigger_error('Number of password numerals exceeds password length', E_USER_WARNING);
+
             return false;
         } elseif ($s > $l) {
             trigger_error('Number of password capitals exceeds password length', E_USER_WARNING);
+
             return false;
         } elseif ($count > $l) {
             trigger_error('Number of password special characters exceeds specified password length', E_USER_WARNING);
+
             return false;
         }
 
         // all inputs clean, proceed to build password
 
         // change these strings if you want to include or exclude possible password characters
-        $chars = "abcdefghijklmnopqrstuvwxyz";
+        $chars = 'abcdefghijklmnopqrstuvwxyz';
         $caps = strtoupper($chars);
-        $nums = "0123456789";
-        $syms = "!@#$%^&*()-+?";
+        $nums = '0123456789';
+        $syms = '!@#$%^&*()-+?';
 
         // build the base password of all lower-case letters
-        $out = "";
+        $out = '';
         for ($i = 0; $i < $l; $i++) {
             $out .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
         }
@@ -415,9 +423,8 @@ class Text
         return $out;
     }
 
-    function nl2br_limit($string, $num)
+    public function nl2br_limit($string, $num)
     {
-
         $dirty = preg_replace('/\r/', '', $string);
         $clean = preg_replace('/\n{4,}/', str_repeat('<br/>', $num), preg_replace('/\r/', '', $dirty));
 
@@ -427,6 +434,7 @@ class Text
     public static function escape($str)
     {
         $str = htmlentities($str);
+
         return $str;
     }
 
@@ -436,6 +444,7 @@ class Text
         $chunks = array_filter($chunks, function ($chunk) {
             return strlen($chunk) > 0;
         });
+
         return implode($glue, $chunks);
     }
 
@@ -495,7 +504,7 @@ class Text
         $nextNumber = $parsed['number'] + 1;
         $numberPadded = str_pad($nextNumber, $parsed['padLength'], '0', STR_PAD_LEFT);
 
-        return Text::combine([
+        return self::combine([
             $parsed['prefix'],
             $numberPadded,
         ]);
@@ -506,7 +515,7 @@ class Text
         $seq = [];
         $parsed = static::parseAlphaNumeric($text);
 
-        if (!$startFrom) {
+        if (! $startFrom) {
             $startFrom = $parsed['number'] + 1;
         }
 
@@ -514,7 +523,7 @@ class Text
         while (count($seq) < $n) {
             $numberPadded = str_pad($nextNumber, $parsed['padLength'], '0', STR_PAD_LEFT);
 
-            $token = Text::combine([
+            $token = self::combine([
                 $parsed['prefix'],
                 $numberPadded,
             ], '');
@@ -536,10 +545,11 @@ class Text
      */
     public static function humanize($word, $separator = '_')
     {
-        if (isset(static::$_humanized[$key = $word . ':' . $separator])) {
+        if (isset(static::$_humanized[$key = $word.':'.$separator])) {
             return static::$_humanized[$key];
         }
-        return static::$_humanized[$key] = ucwords(str_replace($separator, " ", $word));
+
+        return static::$_humanized[$key] = ucwords(str_replace($separator, ' ', $word));
     }
 
     public static function sanitizeEmail($email)
@@ -549,32 +559,28 @@ class Text
 
     public static function autolink($text, $limit = 30, $tagfill = '', $auto_title = true)
     {
-
         $text = static::autolink_do($text, '![a-z][a-z-]+://!i', $limit, $tagfill, $auto_title);
         $text = static::autolink_do($text, '!(mailto|skype):!i', $limit, $tagfill, $auto_title);
         $text = static::autolink_do($text, '!www\\.!i', $limit, $tagfill, $auto_title, 'http://');
+
         return $text;
     }
 
     private static function autolink_do($text, $sub, $limit, $tagfill, $auto_title, $force_prefix = null)
     {
-
-        $text_l = StrToLower($text);
+        $text_l = strtolower($text);
         $cursor = 0;
         $loop = 1;
         $buffer = '';
 
         while (($cursor < strlen($text)) && $loop) {
-
             $ok = 1;
             $matched = preg_match($sub, $text_l, $m, PREG_OFFSET_CAPTURE, $cursor);
 
-            if (!$matched) {
-
+            if (! $matched) {
                 $loop = 0;
                 $ok = 0;
             } else {
-
                 $pos = $m[0][1];
                 $sub_len = strlen($m[0][0]);
 
@@ -583,18 +589,18 @@ class Text
                 $pre = substr($text, 0, $pos);
                 $post = substr($text, $pos + $sub_len);
 
-                $fail_text = $pre_hit . $hit;
+                $fail_text = $pre_hit.$hit;
                 $fail_len = strlen($fail_text);
 
-                #
-                # substring found - first check to see if we're inside a link tag already...
-                #
+                //
+                // substring found - first check to see if we're inside a link tag already...
+                //
 
-                $bits = preg_split("!</a>!i", $pre);
+                $bits = preg_split('!</a>!i', $pre);
                 $last_bit = array_pop($bits);
                 if (preg_match("!<a\s!i", $last_bit)) {
 
-                    #echo "fail 1 at $cursor<br />\n";
+                    //echo "fail 1 at $cursor<br />\n";
 
                     $ok = 0;
                     $cursor += $fail_len;
@@ -602,17 +608,16 @@ class Text
                 }
             }
 
-            #
-            # looks like a nice spot to autolink from - check the pre
-            # to see if there was whitespace before this match
-            #
+            //
+            // looks like a nice spot to autolink from - check the pre
+            // to see if there was whitespace before this match
+            //
 
             if ($ok) {
-
                 if ($pre) {
-                    if (!preg_match('![\s\(\[\{>]$!s', $pre)) {
+                    if (! preg_match('![\s\(\[\{>]$!s', $pre)) {
 
-                        #echo "fail 2 at $cursor ($pre)<br />\n";
+                        //echo "fail 2 at $cursor ($pre)<br />\n";
 
                         $ok = 0;
                         $cursor += $fail_len;
@@ -621,23 +626,22 @@ class Text
                 }
             }
 
-            #
-            # we want to autolink here - find the extent of the url
-            #
+            //
+            // we want to autolink here - find the extent of the url
+            //
 
             if ($ok) {
                 if (preg_match('/^([a-z0-9\-\.\/\-_%~!?=,:;&+*#@\(\)\$]+)/i', $post, $matches)) {
-
-                    $url = $hit . $matches[1];
+                    $url = $hit.$matches[1];
 
                     $cursor += strlen($url) + strlen($pre_hit);
                     $buffer .= $pre_hit;
 
                     $url = html_entity_decode($url);
 
-                    #
-                    # remove trailing punctuation from url
-                    #
+                    //
+                    // remove trailing punctuation from url
+                    //
 
                     while (preg_match('|[.,!;:?]$|', $url)) {
                         $url = substr($url, 0, strlen($url) - 1);
@@ -652,46 +656,43 @@ class Text
                         }
                     }
 
-                    #
-                    # nice-i-fy url here
-                    #
+                    //
+                    // nice-i-fy url here
+                    //
 
                     $link_url = $url;
                     $display_url = $url;
 
                     if ($force_prefix) {
-                        $link_url = $force_prefix . $link_url;
+                        $link_url = $force_prefix.$link_url;
                     }
 
                     if ($GLOBALS['autolink_options']['strip_protocols']) {
                         if (preg_match('!^(http|https)://!i', $display_url, $m)) {
-
                             $display_url = substr($display_url, strlen($m[1]) + 3);
                         }
                     }
 
                     $display_url = static::autolink_label($display_url, $limit);
 
-                    #
-                    # add the url
-                    #
+                    //
+                    // add the url
+                    //
 
-                    if ($display_url != $link_url && !preg_match('@title=@msi', $tagfill) && $auto_title) {
-
+                    if ($display_url != $link_url && ! preg_match('@title=@msi', $tagfill) && $auto_title) {
                         $display_quoted = preg_quote($display_url, '!');
 
-                        if (!preg_match("!^(http|https)://{$display_quoted}$!i", $link_url)) {
-
-                            $tagfill .= ' title="' . $link_url . '"';
+                        if (! preg_match("!^(http|https)://{$display_quoted}$!i", $link_url)) {
+                            $tagfill .= ' title="'.$link_url.'"';
                         }
                     }
 
-                    $link_url_enc = HtmlSpecialChars($link_url);
-                    $display_url_enc = HtmlSpecialChars($display_url);
+                    $link_url_enc = htmlspecialchars($link_url);
+                    $display_url_enc = htmlspecialchars($display_url);
 
                     $buffer .= "<a href=\"{$link_url_enc}\"$tagfill>{$display_url_enc}</a>";
                 } else {
-                    #echo "fail 3 at $cursor<br />\n";
+                    //echo "fail 3 at $cursor<br />\n";
 
                     $ok = 0;
                     $cursor += $fail_len;
@@ -700,9 +701,9 @@ class Text
             }
         }
 
-        #
-        # add everything from the cursor to the end onto the buffer.
-        #
+        //
+        // add everything from the cursor to the end onto the buffer.
+        //
 
         $buffer .= substr($text, $cursor);
 
@@ -711,13 +712,12 @@ class Text
 
     private static function autolink_label($text, $limit)
     {
-
-        if (!$limit) {
+        if (! $limit) {
             return $text;
         }
 
         if (strlen($text) > $limit) {
-            return substr($text, 0, $limit - 3) . '...';
+            return substr($text, 0, $limit - 3).'...';
         }
 
         return $text;
@@ -725,49 +725,46 @@ class Text
 
     private static function autolink_email($text, $tagfill = '')
     {
+        $atom = '[^()<>@,;:\\\\".\\[\\]\\x00-\\x20\\x7f]+'; // from RFC822
 
-        $atom = '[^()<>@,;:\\\\".\\[\\]\\x00-\\x20\\x7f]+'; # from RFC822
+        //die($atom);
 
-        #die($atom);
-
-        $text_l = StrToLower($text);
+        $text_l = strtolower($text);
         $cursor = 0;
         $loop = 1;
         $buffer = '';
 
         while (($cursor < strlen($text)) && $loop) {
 
-            #
-            # find an '@' symbol
-            #
+            //
+            // find an '@' symbol
+            //
 
             $ok = 1;
             $pos = strpos($text_l, '@', $cursor);
 
             if ($pos === false) {
-
                 $loop = 0;
                 $ok = 0;
             } else {
-
                 $pre = substr($text, $cursor, $pos - $cursor);
                 $hit = substr($text, $pos, 1);
                 $post = substr($text, $pos + 1);
 
-                $fail_text = $pre . $hit;
+                $fail_text = $pre.$hit;
                 $fail_len = strlen($fail_text);
 
-                #die("$pre::$hit::$post::$fail_text");
+                //die("$pre::$hit::$post::$fail_text");
 
-                #
-                # substring found - first check to see if we're inside a link tag already...
-                #
+                //
+                // substring found - first check to see if we're inside a link tag already...
+                //
 
-                $bits = preg_split("!</a>!i", $pre);
+                $bits = preg_split('!</a>!i', $pre);
                 $last_bit = array_pop($bits);
                 if (preg_match("!<a\s!i", $last_bit)) {
 
-                    #echo "fail 1 at $cursor<br />\n";
+                    //echo "fail 1 at $cursor<br />\n";
 
                     $ok = 0;
                     $cursor += $fail_len;
@@ -775,23 +772,23 @@ class Text
                 }
             }
 
-            #
-            # check backwards
-            #
+            //
+            // check backwards
+            //
 
             if ($ok) {
                 if (preg_match("!($atom(\.$atom)*)\$!", $pre, $matches)) {
 
-                    # move matched part of address into $hit
+                    // move matched part of address into $hit
 
                     $len = strlen($matches[1]);
                     $plen = strlen($pre);
 
-                    $hit = substr($pre, $plen - $len) . $hit;
+                    $hit = substr($pre, $plen - $len).$hit;
                     $pre = substr($pre, 0, $plen - $len);
                 } else {
 
-                    #echo "fail 2 at $cursor ($pre)<br />\n";
+                    //echo "fail 2 at $cursor ($pre)<br />\n";
 
                     $ok = 0;
                     $cursor += $fail_len;
@@ -799,21 +796,21 @@ class Text
                 }
             }
 
-            #
-            # check forwards
-            #
+            //
+            // check forwards
+            //
 
             if ($ok) {
                 if (preg_match("!^($atom(\.$atom)*)!", $post, $matches)) {
 
-                    # move matched part of address into $hit
+                    // move matched part of address into $hit
 
                     $len = strlen($matches[1]);
 
                     $hit .= substr($post, 0, $len);
                     $post = substr($post, $len);
                 } else {
-                    #echo "fail 3 at $cursor ($post)<br />\n";
+                    //echo "fail 3 at $cursor ($post)<br />\n";
 
                     $ok = 0;
                     $cursor += $fail_len;
@@ -821,21 +818,20 @@ class Text
                 }
             }
 
-            #
-            # commit
-            #
+            //
+            // commit
+            //
 
             if ($ok) {
-
                 $cursor += strlen($pre) + strlen($hit);
                 $buffer .= $pre;
                 $buffer .= "<a href=\"mailto:$hit\"$tagfill>$hit</a>";
             }
         }
 
-        #
-        # add everything from the cursor to the end onto the buffer.
-        #
+        //
+        // add everything from the cursor to the end onto the buffer.
+        //
 
         $buffer .= substr($text, $cursor);
 

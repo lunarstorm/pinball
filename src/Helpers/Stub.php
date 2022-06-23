@@ -2,14 +2,14 @@
 
 namespace Vio\Pinball\Helpers;
 
-class Stub {
-
+class Stub
+{
     public static function interpolate($stub, $values)
     {
         foreach ($values as $key => $value) {
             $searches = [
                 "{{{$key}}}",
-                "{{ {$key} }}"
+                "{{ {$key} }}",
             ];
 
             foreach ($searches as $search) {
@@ -19,5 +19,4 @@ class Stub {
 
         return $stub;
     }
-    
 }

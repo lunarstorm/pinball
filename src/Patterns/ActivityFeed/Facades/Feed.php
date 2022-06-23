@@ -10,6 +10,7 @@ class Feed
     {
         FeedStory::make()
             ->about($user);
+
         return [];
     }
 }

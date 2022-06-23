@@ -3,7 +3,6 @@
 namespace Vio\Pinball\Legacy\io\models;
 
 use Illuminate\Database\Eloquent\Model;
-use lithium\security\Auth;
 
 class KeyValueModel extends Model
 {
@@ -17,6 +16,7 @@ class KeyValueModel extends Model
     public function get_value()
     {
         $value = $this->read_attribute('value');
+
         return static::decode($value);
     }
 
@@ -40,6 +40,7 @@ class KeyValueModel extends Model
         if ($row = static::_load($key, $o)) {
             return $row->value;
         }
+
         return false;
     }
 
@@ -55,7 +56,7 @@ class KeyValueModel extends Model
 
             $rows = static::all([
                 'conditions' => $conditions,
-                'order' => '`key` asc'
+                'order' => '`key` asc',
             ]);
 
             return $rows;
@@ -63,11 +64,11 @@ class KeyValueModel extends Model
 
         $conditions = [
             'user_id = ? and `key` = ?',
-            $o['user_id'], $key
+            $o['user_id'], $key,
         ];
 
         $row = static::find([
-            'conditions' => $conditions
+            'conditions' => $conditions,
         ]);
 
         return $row ?: null;
@@ -81,7 +82,7 @@ class KeyValueModel extends Model
             'user_id' => $user->id,
         ];
 
-        if (!is_array($o)) {
+        if (! is_array($o)) {
             if (is_numeric($o)) {
                 $uid = $o;
             }
@@ -94,6 +95,7 @@ class KeyValueModel extends Model
         }
 
         $o += $defaults;
+
         return $o;
     }
 
@@ -102,6 +104,7 @@ class KeyValueModel extends Model
         $user = auth()->user();
 
         $key = "user.{$user->id}.{$key}";
+
         return $key;
     }
 }

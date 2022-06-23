@@ -8,6 +8,7 @@ use Vio\Pinball\Models\IoData;
 class ListData
 {
     protected static $_data = [];
+
     protected static $_cache = [];
 
     public static function set($name, $data)
@@ -35,13 +36,14 @@ class ListData
 
     public static function random($key)
     {
-        if (!isset(static::$_data[$key])) {
+        if (! isset(static::$_data[$key])) {
             $key = Str::plural($key);
         }
 
         if ($data = static::get($key)) {
             $i = array_rand($data);
             $item = $data[$i];
+
             return $item;
         }
 

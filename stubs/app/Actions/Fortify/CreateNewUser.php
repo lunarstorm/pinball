@@ -32,8 +32,8 @@ class CreateNewUser implements CreatesNewUsers
                 'max:255',
                 Rule::unique(User::class),
                 function ($attribute, $value, $fail) use ($allowedEmails) {
-                    if (!Str::endsWith($value, $allowedEmails)) {
-                        $fail("That email is not recognized.");
+                    if (! Str::endsWith($value, $allowedEmails)) {
+                        $fail('That email is not recognized.');
                     }
                 },
             ],

@@ -6,7 +6,6 @@ use Illuminate\Support\Arr;
 
 class ReceiptHelper
 {
-
     public static function process($invoice = [])
     {
         $defaults = [
@@ -15,13 +14,13 @@ class ReceiptHelper
             'CustomerRef' => [
                 'value' => null,
             ],
-            'PaymentRefNum' => ''
+            'PaymentRefNum' => '',
         ];
         $invoice = array_intersect_key($invoice, $defaults) + $defaults;
 
         foreach ($invoice['Line'] as $i => $line) {
-            if (!data_get($line, "SalesItemLineDetail.TaxCodeRef.value")) {
-                Arr::forget($invoice['Line'][$i], "SalesItemLineDetail.TaxCodeRef");
+            if (! data_get($line, 'SalesItemLineDetail.TaxCodeRef.value')) {
+                Arr::forget($invoice['Line'][$i], 'SalesItemLineDetail.TaxCodeRef');
             }
         }
 

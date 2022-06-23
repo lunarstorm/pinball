@@ -50,7 +50,7 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::requestPasswordResetLinkView(function () {
             return inertia('Auth/RequestPasswordReset', [
-                'status' => session('status')
+                'status' => session('status'),
             ]);
         });
 
@@ -58,7 +58,7 @@ class FortifyServiceProvider extends ServiceProvider
             return inertia('Auth/ResetPassword', [
                 'email' => $request->email,
                 'token' => $request->route('token'),
-                'status' => session('status')
+                'status' => session('status'),
             ]);
         });
 

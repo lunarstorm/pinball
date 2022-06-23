@@ -6,30 +6,31 @@ namespace Vio\Pinball\Helpers;
  * Numeric related helpers.
  *
  * @author Jasper Tey
- *
  */
 class Numeric
 {
     public static function strip($in, $chars = '.')
     {
-        $out = preg_replace("/[^0-9{$chars}]/", "", $in);
+        $out = preg_replace("/[^0-9{$chars}]/", '', $in);
+
         return $out;
     }
 
     public static function floatval($in)
     {
         $out = static::strip($in);
+
         return floatval($out);
     }
 
     public static function money($in)
     {
         $out = static::floatval($in);
+
         return number_format($out, 2);
     }
 
     /**
-     *
      * via: https://stackoverflow.com/questions/37618679/format-number-to-n-significant-digits-in-php
      *
      * @param $value
@@ -47,6 +48,7 @@ class Numeric
         }
 
         $answer = round($value, $decimalPlaces);
+
         return $answer;
     }
 
@@ -62,6 +64,7 @@ class Numeric
             $value = rtrim($value, 0);
             $value = rtrim($value, '.');
         }
+
         return $value;
     }
 

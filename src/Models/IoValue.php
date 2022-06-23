@@ -13,6 +13,7 @@ class IoValue extends EntityKeyValueModel
     {
         $o = static::_parseOptions($o);
         $o['valueField'] = 'value_string';
+
         return parent::get($key, $o, $init);
     }
 
@@ -20,6 +21,7 @@ class IoValue extends EntityKeyValueModel
     {
         $o = static::_parseOptions($o);
         $o['valueField'] = 'value_string';
+
         return parent::set($key, $value, $o);
     }
 
@@ -27,6 +29,7 @@ class IoValue extends EntityKeyValueModel
     {
         $o = static::_parseOptions($o);
         $o['valueField'] = 'value_int';
+
         return intval(parent::get($key, $o, $init));
     }
 
@@ -34,6 +37,7 @@ class IoValue extends EntityKeyValueModel
     {
         $o = static::_parseOptions($o);
         $o['valueField'] = 'value_int';
+
         return parent::set($key, $value, $o);
     }
 
@@ -41,6 +45,7 @@ class IoValue extends EntityKeyValueModel
     {
         $o = static::_parseOptions($o);
         $o['valueField'] = 'value_float';
+
         return parent::get($key, $o, $init);
     }
 
@@ -48,6 +53,7 @@ class IoValue extends EntityKeyValueModel
     {
         $o = static::_parseOptions($o);
         $o['valueField'] = 'value_float';
+
         return parent::set($key, $value, $o);
     }
 
@@ -55,6 +61,7 @@ class IoValue extends EntityKeyValueModel
     {
         $o = static::_parseOptions($o);
         $o['valueField'] = 'value_date';
+
         return parent::get($key, $o, $init);
     }
 
@@ -62,6 +69,7 @@ class IoValue extends EntityKeyValueModel
     {
         $o = static::_parseOptions($o);
         $o['valueField'] = 'value_date';
+
         return parent::set($key, $value, $o);
     }
 }

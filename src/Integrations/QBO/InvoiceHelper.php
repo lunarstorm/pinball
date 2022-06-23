@@ -3,12 +3,10 @@
 namespace Vio\Pinball\Integrations\QBO;
 
 use Illuminate\Support\Arr;
-use Vio\Pinball\Integrations\QBO\Quickbooks;
 
 class InvoiceHelper
 {
-
-    static $companyPrefs = null;
+    public static $companyPrefs = null;
 
     public static function companyPrefs()
     {
@@ -32,10 +30,9 @@ class InvoiceHelper
         ];
         $invoice = array_intersect_key($invoice, $defaults) + $defaults;
 
-
         foreach ($invoice['Line'] as $i => $line) {
-            if (!data_get($line, "SalesItemLineDetail.TaxCodeRef.value")) {
-                Arr::forget($invoice['Line'][$i], "SalesItemLineDetail.TaxCodeRef");
+            if (! data_get($line, 'SalesItemLineDetail.TaxCodeRef.value')) {
+                Arr::forget($invoice['Line'][$i], 'SalesItemLineDetail.TaxCodeRef');
             }
         }
 

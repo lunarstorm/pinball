@@ -2,15 +2,12 @@
 
 namespace Vio\Pinball\Patterns\ActivityFeed\Support;
 
-use Illuminate\Database\Eloquent\Model;
 use Vio\Pinball\Patterns\ActivityFeed\Contracts\Publishable;
 use Vio\Pinball\Patterns\ActivityFeed\Models\FeedStory;
 
 /**
- *
  * Story::make()->actor($user)->action('created', $project);
  * Story::make()->headline($actor, 'created', $project);
- *
  */
 class StoryBuilder
 {
@@ -23,7 +20,7 @@ class StoryBuilder
 
     public static function make(array $attributes = [])
     {
-        return (new StoryBuilder($attributes));
+        return new self($attributes);
     }
 
     public function actor(Publishable $model)

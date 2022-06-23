@@ -25,5 +25,4 @@ class PinballServiceProvider extends ServiceProvider
     {
         //
     }
-
 }

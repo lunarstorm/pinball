@@ -30,7 +30,7 @@ class FeedGroup extends BaseModel
                 'story_id' => $storyId,
                 'name' => $name,
             ], [
-                'value' => $value
+                'value' => $value,
             ]);
     }
 }

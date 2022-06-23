@@ -7,7 +7,7 @@ class PhoneNumber
     public static function extract($raw, $options = [])
     {
         // Strip non numerics
-        $numberCleaned = preg_replace("/[^0-9,.]/", "", $raw);
+        $numberCleaned = preg_replace('/[^0-9,.]/', '', $raw);
 
         $digits = str_split($numberCleaned);
 
@@ -49,15 +49,15 @@ class PhoneNumber
         $parts = static::extract($number);
         $tokens = [];
 
-        if (!in_array('countryCode', $o['exclude']) && $part = $parts['countryCode']) {
+        if (! in_array('countryCode', $o['exclude']) && $part = $parts['countryCode']) {
             $tokens[] = $part;
         }
 
-        if (!in_array('areaCode', $o['exclude']) && $part = $parts['areaCode']) {
+        if (! in_array('areaCode', $o['exclude']) && $part = $parts['areaCode']) {
             $tokens[] = $part;
         }
 
-        if (!in_array('number', $o['exclude']) && $part = $parts['number']) {
+        if (! in_array('number', $o['exclude']) && $part = $parts['number']) {
             // Add Dash
             $part = substr_replace($part, '-', 3, 0);
 
@@ -65,7 +65,7 @@ class PhoneNumber
         }
 
         $formatted = implode('-', $tokens);
+
         return $formatted;
     }
-
 }
