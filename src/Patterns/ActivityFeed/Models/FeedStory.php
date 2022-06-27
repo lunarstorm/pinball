@@ -142,7 +142,6 @@ class FeedStory extends BaseModel
     {
         $this->attributes[$key] = data_get($pair, 0, null);
         $this->attributes[$key.'_id'] = data_get($pair, 1, null);
-
     }
 
     public function setActorAttribute($value)

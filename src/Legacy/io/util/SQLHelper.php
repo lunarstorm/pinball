@@ -17,7 +17,7 @@ class SQLHelper
      * Merges a series of conditions clauses into a single seamless
      * conditions array.
      *
-     * @param mixed $conditions The merged conditions array.
+     * @param  mixed  $conditions The merged conditions array.
      */
     public static function merge_conditions($conditions = [])
     {

@@ -194,14 +194,16 @@ class Text
      * @param  bool  $to_num  Reverses translation when true
      * @param  mixed  $pad_up  Number or boolean padds the result up to a specified length
      * @param  string  $passKey  Supplying a password makes it harder to calculate the original ID
-     *
      * @return mixed string or long
+     *
      * @author  Kevin van Zonneveld <kevin@vanzonneveld.net>
      * @author  Simon Franz
      * @author  Deadfish
      * @copyright 2008 Kevin van Zonneveld (http://kevin.vanzonneveld.net)
      * @license   http://www.opensource.org/licenses/bsd-license.php New BSD Licence
+     *
      * @version   SVN: Release: $Id: alphaID.inc.php 344 2009-06-10 17:43:59Z kevin $
+     *
      * @link    http://kevin.vanzonneveld.net/
      */
     public function alphaID($in, $to_num = false, $pad_up = 3, $passKey = null)
