@@ -1,5 +1,5 @@
 {
-    "name": "vio/pinball",
+    "name": "lunarstormca/pinball",
     "description": ":package_description",
     "license": "license",
     "authors": [
@@ -9,7 +9,7 @@
             "homepage": ""
         }
     ],
-    "homepage": "https://github.com/vio/pinball",
+    "homepage": "https://github.com/lunarstormca/pinball",
     "keywords": [
         "Laravel",
         "Pinball"
