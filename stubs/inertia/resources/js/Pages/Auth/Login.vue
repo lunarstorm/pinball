@@ -12,25 +12,25 @@
         <form @submit.prevent="form.post('/login')">
           <div class="form-group">
             <label>Email</label>
-            <input-text
+            <InputText
               v-model="form.email"
               :error="form.errors.email"
-            ></input-text>
+            />
           </div>
 
           <div class="form-group">
             <label>Password</label>
-            <input-text
+            <InputText
               v-model="form.password"
               :error="form.errors.password"
               type="password"
-            ></input-text>
+            />
           </div>
 
           <div class="form-group">
             <div class="checkbox">
               <label>
-                <input v-model="form.remember" type="checkbox" />
+                <input v-model="form.remember" type="checkbox">
                 Remember Me
               </label>
             </div>
@@ -56,29 +56,29 @@
 </template>
 
 <script>
-import LayoutBlank from "@/Layouts/LayoutBlank";
-import InputText from "vio/components/form/InputText";
-import { useForm } from "@inertiajs/inertia-vue3";
-import FormError from "vio/components/form/FormError";
+import LayoutBlank from '@/Layouts/LayoutBlank';
+import InputText from 'vio/components/form/InputText';
+import { useForm } from '@inertiajs/inertia-vue3';
+import FormError from 'vio/components/form/FormError';
 
 export default {
-  name: "Login",
-  layout: LayoutBlank,
-  components: {
-    InputText,
-    FormError,
-  },
-  setup(props) {
-    const form = useForm({
-      email: "",
-      password: "",
-      remember: false,
-    });
+    name: 'Login',
+    components: {
+        InputText,
+        FormError,
+    },
+    layout: LayoutBlank,
+    setup(props) {
+        const form = useForm({
+            email: '',
+            password: '',
+            remember: false,
+        });
 
-    return {
-      form,
-    };
-  },
+        return {
+            form,
+        };
+    },
 };
 </script>
 

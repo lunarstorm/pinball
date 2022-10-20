@@ -2,7 +2,9 @@
   <div>
     <div class="card mx-auto" style="max-width: 400px">
       <div class="card-body">
-        <h3 class="card-title text-center">Email Verification Required</h3>
+        <h3 class="card-title text-center">
+          Email Verification Required
+        </h3>
 
         <p>
           To verify your identity and gain full access, please click on the link
@@ -11,10 +13,10 @@
 
         <div class="text-center">
           <button
-            @click.prevent="sendAgain"
             :disabled="form.processing"
             type="button"
             class="btn btn-primary"
+            @click.prevent="sendAgain"
           >
             <span v-if="form.processing">Sending...</span>
             <span v-else>Email Me Again</span>
@@ -26,30 +28,30 @@
 </template>
 
 <script>
-import LayoutBlank from "@/Layouts/LayoutBlank";
-import InputText from "vio/components/form/InputText";
-import { useForm } from "@inertiajs/inertia-vue3";
-import FormError from "vio/components/form/FormError";
+import LayoutBlank from '@/Layouts/LayoutBlank';
+import InputText from 'vio/components/form/InputText';
+import { useForm } from '@inertiajs/inertia-vue3';
+import FormError from 'vio/components/form/FormError';
 
 export default {
-  name: "VerifyEmail",
-  layout: LayoutBlank,
-  components: {
-    InputText,
-    FormError,
-  },
-  setup(props) {
-    const form = useForm({});
-
-    return {
-      form,
-    };
-  },
-  methods: {
-    sendAgain() {
-      return this.form.post("/email/verification-notification");
+    name: 'VerifyEmail',
+    components: {
+        InputText,
+        FormError,
     },
-  },
+    layout: LayoutBlank,
+    setup(props) {
+        const form = useForm({});
+
+        return {
+            form,
+        };
+    },
+    methods: {
+        sendAgain() {
+            return this.form.post('/email/verification-notification');
+        },
+    },
 };
 </script>
 
