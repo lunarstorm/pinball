@@ -601,7 +601,6 @@ class Text
                 $bits = preg_split('!</a>!i', $pre);
                 $last_bit = array_pop($bits);
                 if (preg_match("!<a\s!i", $last_bit)) {
-
                     //echo "fail 1 at $cursor<br />\n";
 
                     $ok = 0;
@@ -618,7 +617,6 @@ class Text
             if ($ok) {
                 if ($pre) {
                     if (! preg_match('![\s\(\[\{>]$!s', $pre)) {
-
                         //echo "fail 2 at $cursor ($pre)<br />\n";
 
                         $ok = 0;
@@ -737,7 +735,6 @@ class Text
         $buffer = '';
 
         while (($cursor < strlen($text)) && $loop) {
-
             //
             // find an '@' symbol
             //
@@ -765,7 +762,6 @@ class Text
                 $bits = preg_split('!</a>!i', $pre);
                 $last_bit = array_pop($bits);
                 if (preg_match("!<a\s!i", $last_bit)) {
-
                     //echo "fail 1 at $cursor<br />\n";
 
                     $ok = 0;
@@ -780,7 +776,6 @@ class Text
 
             if ($ok) {
                 if (preg_match("!($atom(\.$atom)*)\$!", $pre, $matches)) {
-
                     // move matched part of address into $hit
 
                     $len = strlen($matches[1]);
@@ -789,7 +784,6 @@ class Text
                     $hit = substr($pre, $plen - $len).$hit;
                     $pre = substr($pre, 0, $plen - $len);
                 } else {
-
                     //echo "fail 2 at $cursor ($pre)<br />\n";
 
                     $ok = 0;
@@ -804,7 +798,6 @@ class Text
 
             if ($ok) {
                 if (preg_match("!^($atom(\.$atom)*)!", $post, $matches)) {
-
                     // move matched part of address into $hit
 
                     $len = strlen($matches[1]);
