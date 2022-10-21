@@ -51,8 +51,8 @@
 </template>
 
 <script>
-import LayoutBlank from '@/Layouts/LayoutBlank';
-import InputText from 'vio/components/form/InputText';
+import LayoutBlank from '@/Layouts/LayoutBlank.vue';
+import InputText from 'vio/components/form/InputText.vue';
 import {useForm} from '@inertiajs/inertia-vue3';
 
 export default {

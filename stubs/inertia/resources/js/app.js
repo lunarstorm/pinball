@@ -6,7 +6,7 @@ import { createInertiaApp, Head, Link } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
 import VioPlugin from 'vio/plugin/VioPlugin';
 
-const LayoutDefault = defineAsyncComponent(() => import('@/Layouts/LayoutDefault'));
+const LayoutDefault = defineAsyncComponent(() => import('@/Layouts/LayoutDefault.vue'));
 
 createInertiaApp({
     resolve: name => import(`./Pages/${name}`)

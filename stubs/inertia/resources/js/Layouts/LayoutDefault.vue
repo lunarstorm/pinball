@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import HeaderBar from './Header';
-import SidebarNav from '@/Layouts/SidebarNav';
-import BreadCrumbs from 'vio/vendor/inertia/BreadCrumbs';
+import HeaderBar from './Header.vue';
+import SidebarNav from '@/Layouts/SidebarNav.vue';
+import BreadCrumbs from 'vio/vendor/inertia/BreadCrumbs.vue';
 import _ from 'lodash';
 import {watchEffect} from 'vue';
 
