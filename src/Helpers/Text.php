@@ -18,7 +18,7 @@ class Text
     {
         $string = trim($string ?? '');
 
-        if (!strlen($string)) {
+        if (! strlen($string)) {
             return $string;
         }
 
@@ -38,7 +38,7 @@ class Text
      */
     public static function startsWith($needle, $haystack)
     {
-        return !strncmp($haystack, $needle, strlen($needle));
+        return ! strncmp($haystack, $needle, strlen($needle));
     }
 
     /**
@@ -57,7 +57,7 @@ class Text
 
     public static function properize($string)
     {
-        return $string . '\'' . ($string[strlen($string) - 1] != 's' ? 's' : '');
+        return $string.'\''.($string[strlen($string) - 1] != 's' ? 's' : '');
     }
 
     public static function generateString($length = 8)
@@ -101,7 +101,7 @@ class Text
             /*  Need to chop of some words
              */
             array_splice($array, $wordsreturned);
-            $retval = implode(' ', $array) . ' ...';
+            $retval = implode(' ', $array).' ...';
         }
 
         return $retval;
@@ -128,7 +128,7 @@ class Text
     public static function emptyToNull($values, $replace = null)
     {
         foreach ($values as $key => $value) {
-            if (!is_array($value) && !strlen($value)) {
+            if (! is_array($value) && ! strlen($value)) {
                 $values[$key] = $replace;
             }
         }
@@ -264,7 +264,7 @@ class Text
             for ($t = floor(log($in, $base)); $t >= 0; $t--) {
                 $bcp = bcpow($base, $t);
                 $a = floor($in / $bcp) % $base;
-                $out = $out . substr($index, $a, 1);
+                $out = $out.substr($index, $a, 1);
                 $in = $in - ($a * $bcp);
             }
             $out = strrev($out); // reverse
@@ -355,7 +355,7 @@ class Text
         $count = $c + $n + $s;
 
         // sanitize inputs; should be self-explanatory
-        if (!is_int($l) || !is_int($c) || !is_int($n) || !is_int($s)) {
+        if (! is_int($l) || ! is_int($c) || ! is_int($n) || ! is_int($s)) {
             trigger_error('Argument(s) not an integer', E_USER_WARNING);
 
             return false;
@@ -517,7 +517,7 @@ class Text
         $seq = [];
         $parsed = static::parseAlphaNumeric($text);
 
-        if (!$startFrom) {
+        if (! $startFrom) {
             $startFrom = $parsed['number'] + 1;
         }
 
@@ -547,7 +547,7 @@ class Text
      */
     public static function humanize($word, $separator = '_')
     {
-        if (isset(static::$_humanized[$key = $word . ':' . $separator])) {
+        if (isset(static::$_humanized[$key = $word.':'.$separator])) {
             return static::$_humanized[$key];
         }
 
@@ -579,7 +579,7 @@ class Text
             $ok = 1;
             $matched = preg_match($sub, $text_l, $m, PREG_OFFSET_CAPTURE, $cursor);
 
-            if (!$matched) {
+            if (! $matched) {
                 $loop = 0;
                 $ok = 0;
             } else {
@@ -591,7 +591,7 @@ class Text
                 $pre = substr($text, 0, $pos);
                 $post = substr($text, $pos + $sub_len);
 
-                $fail_text = $pre_hit . $hit;
+                $fail_text = $pre_hit.$hit;
                 $fail_len = strlen($fail_text);
 
                 //
@@ -616,7 +616,7 @@ class Text
 
             if ($ok) {
                 if ($pre) {
-                    if (!preg_match('![\s\(\[\{>]$!s', $pre)) {
+                    if (! preg_match('![\s\(\[\{>]$!s', $pre)) {
                         //echo "fail 2 at $cursor ($pre)<br />\n";
 
                         $ok = 0;
@@ -632,7 +632,7 @@ class Text
 
             if ($ok) {
                 if (preg_match('/^([a-z0-9\-\.\/\-_%~!?=,:;&+*#@\(\)\$]+)/i', $post, $matches)) {
-                    $url = $hit . $matches[1];
+                    $url = $hit.$matches[1];
 
                     $cursor += strlen($url) + strlen($pre_hit);
                     $buffer .= $pre_hit;
@@ -664,7 +664,7 @@ class Text
                     $display_url = $url;
 
                     if ($force_prefix) {
-                        $link_url = $force_prefix . $link_url;
+                        $link_url = $force_prefix.$link_url;
                     }
 
                     // if ($GLOBALS['autolink_options']['strip_protocols']) {
@@ -679,11 +679,11 @@ class Text
                     // add the url
                     //
 
-                    if ($display_url != $link_url && !preg_match('@title=@msi', $tagfill) && $auto_title) {
+                    if ($display_url != $link_url && ! preg_match('@title=@msi', $tagfill) && $auto_title) {
                         $display_quoted = preg_quote($display_url, '!');
 
-                        if (!preg_match("!^(http|https)://{$display_quoted}$!i", $link_url)) {
-                            $tagfill .= ' title="' . $link_url . '"';
+                        if (! preg_match("!^(http|https)://{$display_quoted}$!i", $link_url)) {
+                            $tagfill .= ' title="'.$link_url.'"';
                         }
                     }
 
@@ -712,12 +712,12 @@ class Text
 
     private static function autolink_label($text, $limit)
     {
-        if (!$limit) {
+        if (! $limit) {
             return $text;
         }
 
         if (strlen($text) > $limit) {
-            return substr($text, 0, $limit - 3) . '...';
+            return substr($text, 0, $limit - 3).'...';
         }
 
         return $text;
@@ -750,7 +750,7 @@ class Text
                 $hit = substr($text, $pos, 1);
                 $post = substr($text, $pos + 1);
 
-                $fail_text = $pre . $hit;
+                $fail_text = $pre.$hit;
                 $fail_len = strlen($fail_text);
 
                 //die("$pre::$hit::$post::$fail_text");
@@ -781,7 +781,7 @@ class Text
                     $len = strlen($matches[1]);
                     $plen = strlen($pre);
 
-                    $hit = substr($pre, $plen - $len) . $hit;
+                    $hit = substr($pre, $plen - $len).$hit;
                     $pre = substr($pre, 0, $plen - $len);
                 } else {
                     //echo "fail 2 at $cursor ($pre)<br />\n";
